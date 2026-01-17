@@ -1,226 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loan Application</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .container {
-      background: #fff;
-      padding: 20px 30px;
-      border-radius: 10px;
-      box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
-      width: 350px;
-    }
-    h2 {
-      text-align: center;
-      color: #0b63d6;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 5px;
-    }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    button {
-      background: #0b63d6;
-      color: #fff;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      background: #084ca5;
-    }
-    .hidden {
-      display: none;
-    }
-    .amount-list {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-    .amount-card {
-      background: #f9fafb;
-      border: 2px solid #0b63d6;
-      border-radius: 8px;
-      padding: 15px;
-      text-align: center;
-      font-weight: bold;
-      color: #0b63d6;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .amount-card:hover {
-      background: #e0ecff;
-    }
-    .success {
-      color: green;
-      font-style: italic;
-      margin-top: 10px;
-      text-align: center;
-    }
-    .loading {
-      text-align: center;
-      margin-top: 10px;
-    }
-    /* Popup modal */
-    .modal {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      display: none;
-      justify-content: center;
-      align-items: center;
-    }
-    .modal-content {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      width: 300px;
-      text-align: center;
-      box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
-    }
-    .close {
-      float: right;
-      font-size: 18px;
-      cursor: pointer;
-      color: red;
-    }body {
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master Loan App</title>
+
+<style>
+body {
   font-family: Arial, sans-serif;
-  background: #28a745; /* Green background */
+  background: #28a745;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
 }
 
-  </style>
+.container {
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+  width: 350px;
+}
+
+h2 {
+  text-align: center;
+  color: #0b63d6;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+input, button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background: #0b63d6;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #084ca5;
+}
+
+.hidden {
+  display: none;
+}
+
+.amount-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.amount-card {
+  background: #f9fafb;
+  border: 2px solid #0b63d6;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  color: #0b63d6;
+  cursor: pointer;
+}
+
+.amount-card:hover {
+  background: #e0ecff;
+}
+
+.success {
+  color: green;
+  font-style: italic;
+  text-align: center;
+}
+
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+}
+
+.close {
+  float: right;
+  cursor: pointer;
+  color: red;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="container">
-    <h2> Master Loan App</h2>
+<div class="container">
 
-    <!-- Registration Form -->
-    <div id="registerForm">
-      <div class="form-group">
-        <label for="name">Full Name:</label>
-        <input type="text" id="name" placeholder="Enter your full name" required>
-      </div>
-      <div class="form-group">
-        <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" placeholder="07XXXXXXXX" required>
-      </div>
-      <button onclick="registerUser()">Register</button>
-
-      <!-- Loading & success -->
-      <div id="loadingMsg" class="loading hidden">
-        <p>Registering...</p>
-      </div>
-      <p id="successMsgRegister" class="success hidden">✅ Successfully Registered!</p>
-    </div>
-
-    <!-- Loan Amount Options -->
-    <div id="loanForm" class="hidden">
-      <p><strong>Select Loan Amount:</strong></p>
-      <div class="amount-list" id="amountList"></div>
-    </div>
+  <!-- COUNTRY SELECTION -->
+  <div id="countryForm">
+    <h2>Select Your Country</h2>
+    <button onclick="selectCountry('Kenya','KES')">🇰🇪 Kenya</button><br><br>
+    <button onclick="selectCountry('Uganda','UGX')">🇺🇬 Uganda</button><br><br>
+    <button onclick="selectCountry('Tanzania','TZS')">🇹🇿 Tanzania</button>
   </div>
 
-  <!-- Modal -->
-  <div class="modal" id="loanModal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <h3>Loan Details</h3>
-      <p id="loanDetails"></p>
-      <button onclick="proceedLoan()">Proceed</button>
+  <!-- REGISTRATION FORM -->
+  <div id="registerForm" class="hidden">
+    <h2 id="appTitle">Master Loan App</h2>
+
+    <div class="form-group">
+      <label>Full Name:</label>
+      <input type="text" id="name" placeholder="Enter your full name">
     </div>
+
+    <div class="form-group">
+      <label>Phone Number:</label>
+      <input type="tel" id="phone" placeholder="07XXXXXXXX">
+    </div>
+
+    <button onclick="registerUser()">Register</button>
+    <p id="successMsgRegister" class="success hidden">✅ Successfully Registered!</p>
   </div>
 
-  <script>
-    function registerUser() {
-      const name = document.getElementById("name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const loadingMsg = document.getElementById("loadingMsg");
-      const successMsg = document.getElementById("successMsgRegister");
+  <!-- LOAN AMOUNTS -->
+  <div id="loanForm" class="hidden">
+    <p><strong>Select Loan Amount:</strong></p>
+    <div class="amount-list" id="amountList"></div>
+  </div>
 
-      if (name.split(" ").length < 2) {
-        alert("Please enter both first and second name.");
-        return;
-      }
-      if (!/^\d{10}$/.test(phone)) {
-        alert("Phone number must be exactly 10 digits.");
-        return;
-      }
+</div>
 
-      // Show loading text
-      loadingMsg.classList.remove("hidden");
-      successMsg.classList.add("hidden");
+<!-- MODAL -->
+<div class="modal" id="loanModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h3>Loan Details</h3>
+    <p id="loanDetails"></p>
+    <button onclick="proceedLoan()">Proceed</button>
+  </div>
+</div>
 
-      setTimeout(() => {
-        loadingMsg.classList.add("hidden");
-        successMsg.classList.remove("hidden");
+<script>
+// ===== GLOBAL SETTINGS =====
+let selectedCountry = "Kenya";
+let currency = "KES";
+const agentNumber = "254107439232";
 
-        setTimeout(() => {
-          document.getElementById("registerForm").classList.add("hidden");
-          document.getElementById("loanForm").classList.remove("hidden");
-          generateLoanOptions();
-        }, 1000);
-      }, 2000);
-    }
+// Exchange rates based on KES
+const rates = {
+  KES: 1,
+  UGX: 28,
+  TZS: 16
+};
 
-    function generateLoanOptions() {
-      const amountList = document.getElementById("amountList");
-      amountList.innerHTML = "";
-      for (let i = 10000; i <= 200000; i += 10000) {
-        const card = document.createElement("div");
-        card.className = "amount-card";
-        card.textContent = `KES ${i.toLocaleString()}`;
-        card.onclick = () => showLoanDetails(i);
-        amountList.appendChild(card);
-      }
-    }
+// ===== FUNCTIONS =====
+function selectCountry(country, curr) {
+  selectedCountry = country;
+  currency = curr;
 
-    function showLoanDetails(amount) {
-      const fee = amount * 0.01;
-      document.getElementById("loanDetails").textContent = 
-        `Loan Amount: KES ${amount.toLocaleString()}\nRegistration Fee (1%): KES ${fee.toLocaleString()}`;
-      document.getElementById("loanModal").style.display = "flex";
-      document.getElementById("loanModal").setAttribute("data-amount", amount);
-    }
+  document.getElementById("countryForm").classList.add("hidden");
+  document.getElementById("registerForm").classList.remove("hidden");
+  document.getElementById("appTitle").innerText = `Master Loan App - ${country}`;
+}
 
-    function closeModal() {
-      document.getElementById("loanModal").style.display = "none";
-    }
+function registerUser() {
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
 
-    function proceedLoan() {
-      const modal = document.getElementById("loanModal");
-      const amount = modal.getAttribute("data-amount");
-      const agentNumber = "254107439232"; 
-      const message = `Hello, I have applied for a loan of KES ${Number(amount).toLocaleString()}.`;
-      const url = `https://wa.me/${agentNumber}?text=${encodeURIComponent(message)}`;
-      window.open(url, "_blank");
-      closeModal();
-    }
-  </script>
+  if (name.split(" ").length < 2) {
+    alert("Please enter your full name.");
+    return;
+  }
+
+  if (!/^\d{10}$/.test(phone)) {
+    alert("Phone number must be 10 digits.");
+    return;
+  }
+
+  document.getElementById("successMsgRegister").classList.remove("hidden");
+
+  setTimeout(() => {
+    document.getElementById("registerForm").classList.add("hidden");
+    document.getElementById("loanForm").classList.remove("hidden");
+    generateLoanOptions();
+  }, 1000);
+}
+
+function generateLoanOptions() {
+  const amountList = document.getElementById("amountList");
+  amountList.innerHTML = "";
+
+  for (let baseAmount = 10000; baseAmount <= 200000; baseAmount += 10000) {
+    const converted = baseAmount * rates[currency];
+
+    const card = document.createElement("div");
+    card.className = "amount-card";
+    card.textContent = `${currency} ${converted.toLocaleString()}`;
+    card.onclick = () => showLoanDetails(baseAmount);
+
+    amountList.appendChild(card);
+  }
+}
+
+function showLoanDetails(baseAmount) {
+  const actualAmount = baseAmount * rates[currency];
+  const fee = actualAmount * 0.01;
+
+  document.getElementById("loanDetails").innerText =
+    `Country: ${selectedCountry}
+Loan Amount: ${currency} ${actualAmount.toLocaleString()}
+Registration Fee (1%): ${currency} ${fee.toLocaleString()}`;
+
+  document.getElementById("loanModal").style.display = "flex";
+  document.getElementById("loanModal").dataset.amount = actualAmount;
+}
+
+function closeModal() {
+  document.getElementById("loanModal").style.display = "none";
+}
+
+function proceedLoan() {
+  const amount = document.getElementById("loanModal").dataset.amount;
+
+  const message =
+    `Hello, I have applied for a loan of ${currency} ${Number(amount).toLocaleString()} from ${selectedCountry}.`;
+
+  const url = `https://wa.me/${agentNumber}?text=${encodeURIComponent(message)}`;
+  window.open(url, "_blank");
+
+  closeModal();
+}
+</script>
+
 </body>
-  </html>
+</html>
