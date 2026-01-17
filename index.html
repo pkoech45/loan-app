@@ -215,7 +215,7 @@
     function proceedLoan() {
       const modal = document.getElementById("loanModal");
       const amount = modal.getAttribute("data-amount");
-      const agentNumber = "254701130113"; 
+      const agentNumber = "254107439232"; 
       const message = `Hello, I have applied for a loan of KES ${Number(amount).toLocaleString()}.`;
       const url = `https://wa.me/${agentNumber}?text=${encodeURIComponent(message)}`;
       window.open(url, "_blank");
