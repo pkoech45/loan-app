@@ -6,6 +6,12 @@
 <title>Master Loan App</title>
 
 <style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
 body{
     font-family:Arial,sans-serif;
     background:#28a745;
@@ -13,21 +19,22 @@ body{
     justify-content:center;
     align-items:center;
     min-height:100vh;
-    margin:0;
     padding:20px;
 }
 
 .container{
     background:#fff;
+    width:380px;
+    max-width:100%;
     padding:25px;
     border-radius:10px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.1);
-    width:360px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
 }
 
 h2{
     text-align:center;
     color:#0b63d6;
+    margin-bottom:20px;
 }
 
 .form-group{
@@ -36,23 +43,47 @@ h2{
 
 label{
     display:block;
-    font-weight:bold;
     margin-bottom:5px;
+    font-weight:bold;
 }
 
-input,button{
+input{
     width:100%;
     padding:10px;
     border:1px solid #ccc;
     border-radius:6px;
-    box-sizing:border-box;
+}
+
+.phone-container{
+    display:flex;
+}
+
+.country-code{
+    width:70px;
+    background:#f0f0f0;
+    border:1px solid #ccc;
+    border-right:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:6px 0 0 6px;
+    font-weight:bold;
+}
+
+.phone-container input{
+    border-radius:0 6px 6px 0;
 }
 
 button{
+    width:100%;
+    padding:12px;
+    border:none;
     background:#0b63d6;
-    color:#fff;
-    font-weight:bold;
+    color:white;
+    border-radius:6px;
+    font-size:16px;
     cursor:pointer;
+    font-weight:bold;
 }
 
 button:hover{
@@ -66,25 +97,7 @@ button:hover{
 .success{
     color:green;
     text-align:center;
-    font-style:italic;
-}
-
-.phone-group{
-    display:flex;
-}
-
-.country-code{
-    background:#eee;
-    padding:10px;
-    border:1px solid #ccc;
-    border-right:none;
-    border-radius:6px 0 0 6px;
-    min-width:60px;
-    text-align:center;
-}
-
-.phone-group input{
-    border-radius:0 6px 6px 0;
+    margin-top:10px;
 }
 
 .amount-list{
@@ -94,53 +107,33 @@ button:hover{
 }
 
 .amount-card{
-    background:#f9fafb;
     border:2px solid #0b63d6;
     border-radius:8px;
     padding:15px;
     text-align:center;
-    font-weight:bold;
-    color:#0b63d6;
     cursor:pointer;
+    color:#0b63d6;
+    font-weight:bold;
+    background:#f8fbff;
 }
 
 .amount-card:hover{
-    background:#e0ecff;
+    background:#dcecff;
 }
 
-.modal{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,.5);
-    display:none;
-    justify-content:center;
-    align-items:center;
-}
-
-.modal-content{
-    background:#fff;
-    width:300px;
-    padding:20px;
-    border-radius:10px;
-    text-align:center;
-}
-
-.close{
-    float:right;
-    color:red;
-    cursor:pointer;
+.review p{
+    margin-bottom:12px;
+    font-size:15px;
 }
 </style>
-</head>
 
+</head>
 <body>
 
 <div class="container">
 
     <!-- STEP 1 -->
+
     <div id="registerForm">
 
         <h2>Step 1: Personal Information</h2>
@@ -163,16 +156,18 @@ button:hover{
         <div class="form-group">
             <label>Phone Number</label>
 
-            <div class="phone-group">
+            <div class="phone-container">
+
                 <div class="country-code">
                     +263
                 </div>
 
                 <input
-                    type="tel"
-                    id="phone"
-                    placeholder="77XXXXXXX"
-                    oninput="formatPhone()">
+                type="tel"
+                id="phone"
+                placeholder="77XXXXXXX"
+                oninput="formatPhone()">
+
             </div>
         </div>
 
@@ -181,36 +176,63 @@ button:hover{
         </button>
 
         <p id="successMsgRegister" class="success hidden">
-            ✅ Successfully Registered!
+            ✓ Information Saved
         </p>
 
     </div>
 
     <!-- STEP 2 -->
+
     <div id="loanForm" class="hidden">
+
         <h2>Step 2: Select Loan Amount</h2>
 
         <div class="amount-list" id="amountList"></div>
+
     </div>
 
-</div>
+    <!-- STEP 3 -->
 
-<!-- MODAL -->
+    <div id="reviewForm" class="hidden">
 
-<div class="modal" id="loanModal">
+        <h2>Step 3: Review Application</h2>
 
-    <div class="modal-content">
+        <div class="review">
 
-        <span class="close" onclick="closeModal()">
-            &times;
-        </span>
+            <p>
+                <strong>First Name:</strong>
+                <span id="reviewFirstName"></span>
+            </p>
 
-        <h3>Loan Details</h3>
+            <p>
+                <strong>Last Name:</strong>
+                <span id="reviewLastName"></span>
+            </p>
 
-        <p id="loanDetails"></p>
+            <p>
+                <strong>Email:</strong>
+                <span id="reviewEmail"></span>
+            </p>
 
-        <button onclick="proceedLoan()">
-            Proceed
+            <p>
+                <strong>Phone Number:</strong>
+                +263<span id="reviewPhone"></span>
+            </p>
+
+            <p>
+                <strong>Country:</strong>
+                Zimbabwe
+            </p>
+
+            <p>
+                <strong>Loan Amount:</strong>
+                <span id="reviewAmount"></span>
+            </p>
+
+        </div>
+
+        <button onclick="applyLoan()">
+            Apply
         </button>
 
     </div>
@@ -219,19 +241,17 @@ button:hover{
 
 <script>
 
-// SETTINGS
-
 const currency="USD";
 const selectedCountry="Zimbabwe";
 const agentNumber="254102388820";
 
-// FORMAT PHONE
+// REMOVE LEADING ZERO
 
 function formatPhone(){
 
     let phone=document.getElementById("phone").value;
 
-    phone=phone.replace(/\D/g,"");
+    phone=phone.replace(/\D/g,'');
 
     if(phone.startsWith("0")){
         phone=phone.substring(1);
@@ -240,32 +260,32 @@ function formatPhone(){
     document.getElementById("phone").value=phone;
 }
 
-// REGISTER
+// STEP 1
 
 function registerUser(){
 
-    const firstName=document.getElementById("firstName").value.trim();
-    const lastName=document.getElementById("lastName").value.trim();
-    const email=document.getElementById("email").value.trim();
-    const phone=document.getElementById("phone").value.trim();
+    let firstName=document.getElementById("firstName").value.trim();
+    let lastName=document.getElementById("lastName").value.trim();
+    let email=document.getElementById("email").value.trim();
+    let phone=document.getElementById("phone").value.trim();
 
     if(firstName==""){
-        alert("Please enter your first name.");
+        alert("Enter first name");
         return;
     }
 
     if(lastName==""){
-        alert("Please enter your last name.");
+        alert("Enter last name");
         return;
     }
 
     if(email==""){
-        alert("Please enter your email address.");
+        alert("Enter email address");
         return;
     }
 
     if(phone.length<9){
-        alert("Please enter a valid phone number.");
+        alert("Enter valid phone number");
         return;
     }
 
@@ -274,90 +294,91 @@ function registerUser(){
     setTimeout(function(){
 
         document.getElementById("registerForm").classList.add("hidden");
+
         document.getElementById("loanForm").classList.remove("hidden");
 
         generateLoanOptions();
 
     },1000);
+
 }
 
-// GENERATE LOANS
+// STEP 2
 
 function generateLoanOptions(){
 
-    const amountList=document.getElementById("amountList");
+    let amountList=document.getElementById("amountList");
 
     amountList.innerHTML="";
 
     for(let amount=100; amount<=2000; amount+=100){
 
-        const card=document.createElement("div");
+        let card=document.createElement("div");
 
         card.className="amount-card";
 
         card.innerHTML=currency+" "+amount.toLocaleString();
 
         card.onclick=function(){
-            showLoanDetails(amount);
+            showReview(amount);
         };
 
         amountList.appendChild(card);
+
     }
+
 }
 
-// SHOW DETAILS
+// STEP 3
 
-function showLoanDetails(amount){
+function showReview(amount){
 
-    const fee=amount*0.01;
+    document.getElementById("loanForm").classList.add("hidden");
 
-    document.getElementById("loanDetails").innerText=
+    document.getElementById("reviewForm").classList.remove("hidden");
 
-"Country: "+selectedCountry+
+    document.getElementById("reviewFirstName").innerHTML=
+    document.getElementById("firstName").value;
 
-"\n\nLoan Amount: "+currency+" "+amount.toLocaleString()+
+    document.getElementById("reviewLastName").innerHTML=
+    document.getElementById("lastName").value;
 
-"\n\nRegistration Fee (1%): "+currency+" "+fee.toLocaleString();
+    document.getElementById("reviewEmail").innerHTML=
+    document.getElementById("email").value;
 
-    document.getElementById("loanModal").style.display="flex";
+    document.getElementById("reviewPhone").innerHTML=
+    document.getElementById("phone").value;
 
-    document.getElementById("loanModal").dataset.amount=amount;
+    document.getElementById("reviewAmount").innerHTML=
+    currency+" "+Number(amount).toLocaleString();
+
+    document.getElementById("reviewForm").dataset.amount=amount;
+
 }
 
-// CLOSE
+// APPLY
 
-function closeModal(){
-    document.getElementById("loanModal").style.display="none";
-}
+function applyLoan(){
 
-// WHATSAPP
+    let amount=document.getElementById("reviewForm").dataset.amount;
 
-function proceedLoan(){
-
-    const amount=document.getElementById("loanModal").dataset.amount;
-
-    const firstName=document.getElementById("firstName").value;
-    const lastName=document.getElementById("lastName").value;
-    const email=document.getElementById("email").value;
-    const phone=document.getElementById("phone").value;
-
-    const message=
+    let message=
 `Loan Application
 
-First Name: ${firstName}
-Last Name: ${lastName}
-Email: ${email}
-Phone: +263${phone}
+First Name: ${document.getElementById("firstName").value}
+Last Name: ${document.getElementById("lastName").value}
+Email: ${document.getElementById("email").value}
+Phone: +263${document.getElementById("phone").value}
 
-Country: ${selectedCountry}
+Country: Zimbabwe
+
 Loan Amount: ${currency} ${Number(amount).toLocaleString()}`;
 
-    const url=
+    let url=
 `https://wa.me/${agentNumber}?text=${encodeURIComponent(message)}`;
 
     window.open(url,"_blank");
 
-    closeModal();
 }
 
 </script>
@@ -365,3 +386,4 @@ Loan Amount: ${currency} ${Number(amount).toLocaleString()}`;
 </body>
 </html>
 ```
+
