@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,111 +7,132 @@
 <title>Master Loan App</title>
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #28a745;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+body{
+    font-family:Arial,sans-serif;
+    background:#28a745;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    margin:0;
+    padding:20px;
 }
 
-.container {
-  background: #fff;
-  padding: 20px 30px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
-  width: 350px;
+.container{
+    background:#fff;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+    width:360px;
 }
 
-h2 {
-  text-align: center;
-  color: #0b63d6;
+h2{
+    text-align:center;
+    color:#0b63d6;
 }
 
-.form-group {
-  margin-bottom: 15px;
+.form-group{
+    margin-bottom:15px;
 }
 
-label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
+label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:5px;
 }
 
-input, button {
-  width: 100%;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+input,button{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    box-sizing:border-box;
 }
 
-button {
-  background: #0b63d6;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
+button{
+    background:#0b63d6;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-button:hover {
-  background: #084ca5;
+button:hover{
+    background:#084ca5;
 }
 
-.hidden {
-  display: none;
+.hidden{
+    display:none;
 }
 
-.amount-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+.success{
+    color:green;
+    text-align:center;
+    font-style:italic;
 }
 
-.amount-card {
-  background: #f9fafb;
-  border: 2px solid #0b63d6;
-  border-radius: 8px;
-  padding: 15px;
-  text-align: center;
-  font-weight: bold;
-  color: #0b63d6;
-  cursor: pointer;
+.phone-group{
+    display:flex;
 }
 
-.amount-card:hover {
-  background: #e0ecff;
+.country-code{
+    background:#eee;
+    padding:10px;
+    border:1px solid #ccc;
+    border-right:none;
+    border-radius:6px 0 0 6px;
+    min-width:60px;
+    text-align:center;
 }
 
-.success {
-  color: green;
-  font-style: italic;
-  text-align: center;
+.phone-group input{
+    border-radius:0 6px 6px 0;
 }
 
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: none;
-  justify-content: center;
-  align-items: center;
+.amount-list{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
 }
 
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  width: 300px;
-  text-align: center;
+.amount-card{
+    background:#f9fafb;
+    border:2px solid #0b63d6;
+    border-radius:8px;
+    padding:15px;
+    text-align:center;
+    font-weight:bold;
+    color:#0b63d6;
+    cursor:pointer;
 }
 
-.close {
-  float: right;
-  cursor: pointer;
-  color: red;
+.amount-card:hover{
+    background:#e0ecff;
+}
+
+.modal{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.5);
+    display:none;
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    background:#fff;
+    width:300px;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+}
+
+.close{
+    float:right;
+    color:red;
+    cursor:pointer;
 }
 </style>
 </head>
@@ -119,125 +141,226 @@ button:hover {
 
 <div class="container">
 
-  <!-- REGISTRATION FORM -->
-  <div id="registerForm">
-    <h2>Master Loan App</h2>
+    <!-- STEP 1 -->
+    <div id="registerForm">
 
-    <div class="form-group">
-      <label>Full Name:</label>
-      <input type="text" id="name" placeholder="Enter your full name">
+        <h2>Step 1: Personal Information</h2>
+
+        <div class="form-group">
+            <label>First Name</label>
+            <input type="text" id="firstName" placeholder="Enter first name">
+        </div>
+
+        <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" id="lastName" placeholder="Enter last name">
+        </div>
+
+        <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="Enter email address">
+        </div>
+
+        <div class="form-group">
+            <label>Phone Number</label>
+
+            <div class="phone-group">
+                <div class="country-code">
+                    +263
+                </div>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    placeholder="77XXXXXXX"
+                    oninput="formatPhone()">
+            </div>
+        </div>
+
+        <button onclick="registerUser()">
+            Continue
+        </button>
+
+        <p id="successMsgRegister" class="success hidden">
+            ✅ Successfully Registered!
+        </p>
+
     </div>
 
-    <div class="form-group">
-      <label>Phone Number:</label>
-      <input type="tel" id="phone" placeholder="07XXXXXXXX">
+    <!-- STEP 2 -->
+    <div id="loanForm" class="hidden">
+        <h2>Step 2: Select Loan Amount</h2>
+
+        <div class="amount-list" id="amountList"></div>
     </div>
-
-    <button onclick="registerUser()">Register</button>
-    <p id="successMsgRegister" class="success hidden">
-      ✅ Successfully Registered!
-    </p>
-  </div>
-
-  <!-- LOAN AMOUNTS -->
-  <div id="loanForm" class="hidden">
-    <p><strong>Select Loan Amount:</strong></p>
-    <div class="amount-list" id="amountList"></div>
-  </div>
 
 </div>
 
 <!-- MODAL -->
+
 <div class="modal" id="loanModal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <h3>Loan Details</h3>
-    <p id="loanDetails"></p>
-    <button onclick="proceedLoan()">Proceed</button>
-  </div>
+
+    <div class="modal-content">
+
+        <span class="close" onclick="closeModal()">
+            &times;
+        </span>
+
+        <h3>Loan Details</h3>
+
+        <p id="loanDetails"></p>
+
+        <button onclick="proceedLoan()">
+            Proceed
+        </button>
+
+    </div>
+
 </div>
 
 <script>
-// ===== GLOBAL SETTINGS =====
-let selectedCountry = "Kenya";
-let currency = "KES";
-const agentNumber = "254102388820";
 
-// Exchange rates
-const rates = {
-  KES: 1
-};
+// SETTINGS
 
-// ===== FUNCTIONS =====
+const currency="USD";
+const selectedCountry="Zimbabwe";
+const agentNumber="254102388820";
 
-function registerUser() {
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
+// FORMAT PHONE
 
-  if (name.split(" ").length < 2) {
-    alert("Please enter your full name.");
-    return;
-  }
+function formatPhone(){
 
-  if (!/^\\d{10}$/.test(phone)) {
-    alert("Phone number must be 10 digits.");
-    return;
-  }
+    let phone=document.getElementById("phone").value;
 
-  document.getElementById("successMsgRegister").classList.remove("hidden");
+    phone=phone.replace(/\D/g,"");
 
-  setTimeout(() => {
-    document.getElementById("registerForm").classList.add("hidden");
-    document.getElementById("loanForm").classList.remove("hidden");
-    generateLoanOptions();
-  }, 1000);
+    if(phone.startsWith("0")){
+        phone=phone.substring(1);
+    }
+
+    document.getElementById("phone").value=phone;
 }
 
-function generateLoanOptions() {
-  const amountList = document.getElementById("amountList");
-  amountList.innerHTML = "";
+// REGISTER
 
-  for (let baseAmount = 10000; baseAmount <= 200000; baseAmount += 10000) {
+function registerUser(){
 
-    const card = document.createElement("div");
-    card.className = "amount-card";
-    card.textContent = `${currency} ${baseAmount.toLocaleString()}`;
-    card.onclick = () => showLoanDetails(baseAmount);
+    const firstName=document.getElementById("firstName").value.trim();
+    const lastName=document.getElementById("lastName").value.trim();
+    const email=document.getElementById("email").value.trim();
+    const phone=document.getElementById("phone").value.trim();
 
-    amountList.appendChild(card);
-  }
+    if(firstName==""){
+        alert("Please enter your first name.");
+        return;
+    }
+
+    if(lastName==""){
+        alert("Please enter your last name.");
+        return;
+    }
+
+    if(email==""){
+        alert("Please enter your email address.");
+        return;
+    }
+
+    if(phone.length<9){
+        alert("Please enter a valid phone number.");
+        return;
+    }
+
+    document.getElementById("successMsgRegister").classList.remove("hidden");
+
+    setTimeout(function(){
+
+        document.getElementById("registerForm").classList.add("hidden");
+        document.getElementById("loanForm").classList.remove("hidden");
+
+        generateLoanOptions();
+
+    },1000);
 }
 
-function showLoanDetails(amount) {
-  const fee = amount * 0.01;
+// GENERATE LOANS
 
-  document.getElementById("loanDetails").innerText =
-`Country: ${selectedCountry}
+function generateLoanOptions(){
 
-Loan Amount: ${currency} ${amount.toLocaleString()}
+    const amountList=document.getElementById("amountList");
 
-Registration Fee (1%): ${currency} ${fee.toLocaleString()}`;
+    amountList.innerHTML="";
 
-  document.getElementById("loanModal").style.display = "flex";
-  document.getElementById("loanModal").dataset.amount = amount;
+    for(let amount=100; amount<=2000; amount+=100){
+
+        const card=document.createElement("div");
+
+        card.className="amount-card";
+
+        card.innerHTML=currency+" "+amount.toLocaleString();
+
+        card.onclick=function(){
+            showLoanDetails(amount);
+        };
+
+        amountList.appendChild(card);
+    }
 }
 
-function closeModal() {
-  document.getElementById("loanModal").style.display = "none";
+// SHOW DETAILS
+
+function showLoanDetails(amount){
+
+    const fee=amount*0.01;
+
+    document.getElementById("loanDetails").innerText=
+
+"Country: "+selectedCountry+
+
+"\n\nLoan Amount: "+currency+" "+amount.toLocaleString()+
+
+"\n\nRegistration Fee (1%): "+currency+" "+fee.toLocaleString();
+
+    document.getElementById("loanModal").style.display="flex";
+
+    document.getElementById("loanModal").dataset.amount=amount;
 }
 
-function proceedLoan() {
-  const amount = document.getElementById("loanModal").dataset.amount;
+// CLOSE
 
-  const message =
-`Hello, I have applied for a loan of ${currency} ${Number(amount).toLocaleString()} from ${selectedCountry}.`;
+function closeModal(){
+    document.getElementById("loanModal").style.display="none";
+}
 
-  const url =
+// WHATSAPP
+
+function proceedLoan(){
+
+    const amount=document.getElementById("loanModal").dataset.amount;
+
+    const firstName=document.getElementById("firstName").value;
+    const lastName=document.getElementById("lastName").value;
+    const email=document.getElementById("email").value;
+    const phone=document.getElementById("phone").value;
+
+    const message=
+`Loan Application
+
+First Name: ${firstName}
+Last Name: ${lastName}
+Email: ${email}
+Phone: +263${phone}
+
+Country: ${selectedCountry}
+Loan Amount: ${currency} ${Number(amount).toLocaleString()}`;
+
+    const url=
 `https://wa.me/${agentNumber}?text=${encodeURIComponent(message)}`;
 
-  window.open(url, "_blank");
-  closeModal();
+    window.open(url,"_blank");
+
+    closeModal();
 }
+
 </script>
 
 </body>
