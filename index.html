@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,8 +90,10 @@ button:hover {
 
 .modal {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0,0,0,0.5);
   display: none;
   justify-content: center;
@@ -117,17 +120,9 @@ button:hover {
 
 <div class="container">
 
-  <!-- COUNTRY SELECTION -->
-  <div id="countryForm">
-    <h2>Select Your Country</h2>
-    <button onclick="selectCountry('Kenya','KES')">🇰🇪 Kenya</button><br><br>
-    <button onclick="selectCountry('Uganda','UGX')">🇺🇬 Uganda</button><br><br>
-    <button onclick="selectCountry('Tanzania','TZS')">🇹🇿 Tanzania</button>
-  </div>
-
   <!-- REGISTRATION FORM -->
-  <div id="registerForm" class="hidden">
-    <h2 id="appTitle">Master Loan App</h2>
+  <div id="registerForm">
+    <h2>Master Loan App</h2>
 
     <div class="form-group">
       <label>Full Name:</label>
@@ -140,7 +135,9 @@ button:hover {
     </div>
 
     <button onclick="registerUser()">Register</button>
-    <p id="successMsgRegister" class="success hidden">✅ Successfully Registered!</p>
+    <p id="successMsgRegister" class="success hidden">
+      ✅ Successfully Registered!
+    </p>
   </div>
 
   <!-- LOAN AMOUNTS -->
@@ -167,22 +164,12 @@ let selectedCountry = "Kenya";
 let currency = "KES";
 const agentNumber = "254102388820";
 
-// Exchange rates based on KES
+// Exchange rates
 const rates = {
-  KES: 1,
-  UGX: 28,
-  TZS: 16
+  KES: 1
 };
 
 // ===== FUNCTIONS =====
-function selectCountry(country, curr) {
-  selectedCountry = country;
-  currency = curr;
-
-  document.getElementById("countryForm").classList.add("hidden");
-  document.getElementById("registerForm").classList.remove("hidden");
-  document.getElementById("appTitle").innerText = `Master Loan App - ${country}`;
-}
 
 function registerUser() {
   const name = document.getElementById("name").value.trim();
@@ -193,7 +180,7 @@ function registerUser() {
     return;
   }
 
-  if (!/^\d{10}$/.test(phone)) {
+  if (!/^\\d{10}$/.test(phone)) {
     alert("Phone number must be 10 digits.");
     return;
   }
@@ -212,28 +199,28 @@ function generateLoanOptions() {
   amountList.innerHTML = "";
 
   for (let baseAmount = 10000; baseAmount <= 200000; baseAmount += 10000) {
-    const converted = baseAmount * rates[currency];
 
     const card = document.createElement("div");
     card.className = "amount-card";
-    card.textContent = `${currency} ${converted.toLocaleString()}`;
+    card.textContent = `${currency} ${baseAmount.toLocaleString()}`;
     card.onclick = () => showLoanDetails(baseAmount);
 
     amountList.appendChild(card);
   }
 }
 
-function showLoanDetails(baseAmount) {
-  const actualAmount = baseAmount * rates[currency];
-  const fee = actualAmount * 0.01;
+function showLoanDetails(amount) {
+  const fee = amount * 0.01;
 
   document.getElementById("loanDetails").innerText =
-    `Country: ${selectedCountry}
-Loan Amount: ${currency} ${actualAmount.toLocaleString()}
+`Country: ${selectedCountry}
+
+Loan Amount: ${currency} ${amount.toLocaleString()}
+
 Registration Fee (1%): ${currency} ${fee.toLocaleString()}`;
 
   document.getElementById("loanModal").style.display = "flex";
-  document.getElementById("loanModal").dataset.amount = actualAmount;
+  document.getElementById("loanModal").dataset.amount = amount;
 }
 
 function closeModal() {
@@ -244,14 +231,16 @@ function proceedLoan() {
   const amount = document.getElementById("loanModal").dataset.amount;
 
   const message =
-    `Hello, I have applied for a loan of ${currency} ${Number(amount).toLocaleString()} from ${selectedCountry}.`;
+`Hello, I have applied for a loan of ${currency} ${Number(amount).toLocaleString()} from ${selectedCountry}.`;
 
-  const url = `https://wa.me/${agentNumber}?text=${encodeURIComponent(message)}`;
+  const url =
+`https://wa.me/${agentNumber}?text=${encodeURIComponent(message)}`;
+
   window.open(url, "_blank");
-
   closeModal();
 }
 </script>
 
 </body>
 </html>
+```
