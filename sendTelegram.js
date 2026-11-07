@@ -1,7 +1,7 @@
 
 async function sendTelegramNotification(applicationId) {
-  const BOT_TOKEN = process.env.BOT_TOKEN;
-  const ADMIN_CHAT_ID = process.env.ADMIN_CHAT_ID;
+  const TELEGRAM_BOT_TOKEN = process.env.BOT_TOKEN;
+  const TELEGRAM_CHAT_ID = process.env.ADMIN_CHAT_ID;
   const MOCKAPI_URL = process.env.MOCKAPI_URL;
 
   if (!BOT_TOKEN || !ADMIN_CHAT_ID || !MOCKAPI_URL) {
