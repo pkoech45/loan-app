@@ -1,132 +1,53 @@
-export default async function handler(req, res) {
 
-    if (req.method !== "POST") {
+async function sendTelegramNotification(application) {
+  const BOT_TOKEN = process.env.BOT_TOKEN;
+  const ADMIN_CHAT_ID = process.env.ADMIN_CHAT_ID;
 
-        return res.status(405).json({
-            success: false,
-            message: "Method not allowed"
-        });
+  if (!BOT_TOKEN || !ADMIN_CHAT_ID) {
+    throw new Error("Missing Telegram configuration in .env");
+  }
+
+  const message = [
+    "🔔 NEW LOAN APPLICATION",
+    "",
+    `Applicant: ${application.full_name || "Not provided"}`,
+    `Phone: ${application.phone_number || "Not provided"}`,
+    `Loan amount: BWP ${application.loan_amount_bwp ?? "Not provided"}`,
+    `Period: ${application.period_months ?? "Not provided"} months`,
+    `Monthly payment: BWP ${application.monthly_payment_bwp ?? "Not provided"}`,
+    `Total repayment: BWP ${application.total_repayment_bwp ?? "Not provided"}`,
+    "",
+    `Application ID: ${application.id || "Pending"}`,
+    `Status: ${application.status || "pending"}`,
+    `Submitted: ${application.created_at || new Date().toISOString()}`,
+    "",
+    "This is a demo loan application notification.",
+    "No approval decision has been made yet."
+  ].join("\n");
+
+  const response = await fetch(
+    `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        chat_id: ADMIN_CHAT_ID,
+        text: message
+      })
     }
+  );
 
+  const result = await response.json();
 
-    try {
+  if (!response.ok || !result.ok) {
+    throw new Error(
+      result.description || "Telegram notification failed"
+    );
+  }
 
-        const {
-            firstName,
-            lastName,
-            email,
-            phone,
-            loanAmount
-        } = req.body;
-
-
-        if (
-            !firstName ||
-            !lastName ||
-            !email ||
-            !phone ||
-            !loanAmount
-        ) {
-
-            return res.status(400).json({
-                success: false,
-                message:
-                    "Missing required fields"
-            });
-        }
-
-
-        const message =
-
-`🔔 NEW LOAN APPLICATION
-
-━━━━━━━━━━━━━━━━━━
-
-👤 First Name: ${firstName}
-👤 Last Name: ${lastName}
-📧 Email: ${email}
-📱 Phone: +263${phone}
-🌍 Country: Zimbabwe
-💰 Loan Amount: ${loanAmount}
-
-━━━━━━━━━━━━━━━━━━
-
-✅ Details validated successfully`;
-
-
-        const telegramResponse =
-            await fetch(
-
-                `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
-
-                {
-
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-
-                        chat_id:
-                            process.env.TELEGRAM_CHAT_ID,
-
-                        text:
-                            message
-
-                    })
-
-                }
-            );
-
-
-        const telegramData =
-            await telegramResponse.json();
-
-
-        if (!telegramData.ok) {
-
-            console.error(
-                "Telegram error:",
-                telegramData
-            );
-
-
-            return res.status(500).json({
-
-                success: false,
-
-                message:
-                    "Telegram notification failed."
-
-            });
-        }
-
-
-        return res.status(200).json({
-
-            success: true,
-
-            message:
-                "Application sent successfully."
-
-        });
-
-
-    } catch (error) {
-
-        console.error(error);
-
-
-        return res.status(500).json({
-
-            success: false,
-
-            message:
-                "Server error."
-
-        });
-    }
+  return result;
 }
+
+module.exports = sendTelegramNotification;
