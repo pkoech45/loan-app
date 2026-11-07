@@ -1,9 +1,9 @@
 
 async function sendTelegramNotification(application) {
-  const BOT_TOKEN = process.env.BOT_TOKEN;
-  const ADMIN_CHAT_ID = process.env.ADMIN_CHAT_ID;
+  const Telegram_BOT_TOKEN = process.env.BOT_TOKEN;
+  const Telegram_CHAT_ID = process.env.ADMIN_CHAT_ID;
 
-  if (!BOT_TOKEN || !ADMIN_CHAT_ID) {
+  if (!Telegram_BOT_TOKEN || !Telegram_CHAT_ID) {
     throw new Error("Missing Telegram configuration in .env");
   }
 
