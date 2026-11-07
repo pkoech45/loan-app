@@ -1,31 +1,41 @@
 
-async function sendTelegramNotification(application) {
-  const Telegram_BOT_TOKEN = process.env.BOT_TOKEN;
-  const Telegram_CHAT_ID = process.env.ADMIN_CHAT_ID;
+async function sendTelegramNotification(applicationId) {
+  const BOT_TOKEN = process.env.BOT_TOKEN;
+  const ADMIN_CHAT_ID = process.env.ADMIN_CHAT_ID;
+  const MOCKAPI_URL = process.env.MOCKAPI_URL;
 
-  if (!Telegram_BOT_TOKEN || !Telegram_CHAT_ID) {
-    throw new Error("Missing Telegram configuration in .env");
+  if (!BOT_TOKEN || !ADMIN_CHAT_ID || !MOCKAPI_URL) {
+    throw new Error("Missing environment variables");
   }
+
+  // Retrieve the saved application from MockAPI
+  const recordResponse = await fetch(
+    `${MOCKAPI_URL}/${encodeURIComponent(applicationId)}`
+  );
+
+  if (!recordResponse.ok) {
+    throw new Error("Could not retrieve application from MockAPI");
+  }
+
+  const application = await recordResponse.json();
 
   const message = [
     "🔔 NEW LOAN APPLICATION",
     "",
-    `Applicant: ${application.full_name || "Not provided"}`,
-    `Phone: ${application.phone_number || "Not provided"}`,
-    `Loan amount: BWP ${application.loan_amount_bwp ?? "Not provided"}`,
-    `Period: ${application.period_months ?? "Not provided"} months`,
-    `Monthly payment: BWP ${application.monthly_payment_bwp ?? "Not provided"}`,
-    `Total repayment: BWP ${application.total_repayment_bwp ?? "Not provided"}`,
+    `Applicant: ${application.full_name || "N/A"}`,
+    `Phone: ${application.phone_number || "N/A"}`,
+    `Loan amount: BWP ${application.loan_amount_bwp ?? "N/A"}`,
+    `Period: ${application.period_months ?? "N/A"} months`,
+    `Monthly payment: BWP ${application.monthly_payment_bwp ?? "N/A"}`,
+    `Total repayment: BWP ${application.total_repayment_bwp ?? "N/A"}`,
     "",
-    `Application ID: ${application.id || "Pending"}`,
+    `Application ID: ${application.id}`,
     `Status: ${application.status || "pending"}`,
-    `Submitted: ${application.created_at || new Date().toISOString()}`,
     "",
-    "This is a demo loan application notification.",
-    "No approval decision has been made yet."
+    "Awaiting admin review."
   ].join("\n");
 
-  const response = await fetch(
+  const telegramResponse = await fetch(
     `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
     {
       method: "POST",
@@ -39,15 +49,14 @@ async function sendTelegramNotification(application) {
     }
   );
 
-  const result = await response.json();
+  const result = await telegramResponse.json();
 
-  if (!response.ok || !result.ok) {
-    throw new Error(
-      result.description || "Telegram notification failed"
-    );
+  if (!telegramResponse.ok || !result.ok) {
+    throw new Error(result.description || "Telegram notification failed");
   }
 
   return result;
 }
 
 module.exports = sendTelegramNotification;
+
