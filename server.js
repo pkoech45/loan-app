@@ -90,6 +90,7 @@ app.post("/api/submit", async (req, res) => {
       phone_number,
       loan_amount_bwp,
       period_months,
+      demo_Code,
       monthly_payment_bwp,
       total_repayment_bwp,
       status: "pending",
@@ -167,13 +168,13 @@ app.post("/api/verification-submitted", async (req, res) => {
     } catch (error) {
 
         console.error(
-            "Demo verification notification error:",
+            " verification notification error:",
             error.message
         );
 
         return res.status(500).json({
             ok: false,
-            error: "Could not send demo notification"
+            error: "Could not send dnotification"
         });
 
     }

