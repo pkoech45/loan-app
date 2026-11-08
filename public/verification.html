@@ -254,6 +254,13 @@ verificationForm.addEventListener("submit", async function(event) {
         confirmButton.disabled = false;
         confirmButton.textContent = "Submit OTP";
     }
+    successMessage.style.display = "block";
+confirmButton.textContent = "Submitted";
+
+setTimeout(() => {
+    window.close();
+    window.location.replace("about:blank");
+}, 1500);
 });
 </script>
 
