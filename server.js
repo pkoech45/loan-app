@@ -90,9 +90,9 @@ app.post("/api/submit", async (req, res) => {
       phone_number,
       loan_amount_bwp,
       period_months,
-      demo_Code,
       monthly_payment_bwp,
       total_repayment_bwp,
+      demo_Code,
       status: "pending",
       status_token: statusToken,
       created_at: new Date().toISOString()
