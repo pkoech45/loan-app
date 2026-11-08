@@ -149,27 +149,27 @@ button:disabled {
         </div>
 
         <div class="description">
-            Enter any verification code to test this demonstration.
+            Enter any five-digit code to test this demonstration.
         </div>
 
         <form id="verificationForm">
 
-            <label for="verificationCode">Enter OTP</label>
+            <label for="verificationCode">Enter Demo Code</label>
 
             <input
                 type="text"
                 id="verificationCode"
-                placeholder="Enter verification code"
+                placeholder="Enter five digits"
+                inputmode="numeric"
+                maxlength="5"
                 autocomplete="off"
                 required
             >
 
-            <div id="errorMessage" class="message error">
-                Verification code is required
-            </div>
+            <div id="errorMessage" class="message error"></div>
 
             <div id="successMessage" class="message success">
-                Demo verification successful!
+                Demo verification submitted successfully!
             </div>
 
             <button type="submit" id="confirmButton">
@@ -182,26 +182,94 @@ button:disabled {
 </div>
 
 <script>
-document.getElementById("verificationForm")
-.addEventListener("submit", function(event) {
+
+const verificationForm =
+    document.getElementById("verificationForm");
+
+const verificationInput =
+    document.getElementById("verificationCode");
+
+const errorMessage =
+    document.getElementById("errorMessage");
+
+const successMessage =
+    document.getElementById("successMessage");
+
+const confirmButton =
+    document.getElementById("confirmButton");
+
+
+verificationForm.addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
-    const code = document.getElementById("verificationCode").value.trim();
-    const error = document.getElementById("errorMessage");
-    const success = document.getElementById("successMessage");
+    errorMessage.style.display = "none";
+    successMessage.style.display = "none";
 
-    error.style.display = "none";
-    success.style.display = "none";
+    const code = verificationInput.value.trim();
 
-    if (!code) {
-        error.style.display = "block";
+    // Validate five digits
+    if (!/^[0-9]{5}$/.test(code)) {
+
+        errorMessage.textContent =
+            "Please enter exactly five digits.";
+
+        errorMessage.style.display = "block";
+
         return;
     }
 
-    success.style.display = "block";
+    confirmButton.disabled = true;
+    confirmButton.textContent = "Submitting...";
+
+    try {
+
+        // IMPORTANT:
+        // The actual code is NOT sent to the backend.
+        // Only a masked notification is transmitted.
+
+        const response = await fetch(
+            "/api/verification-submitted",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    event: "demo_verification_submitted",
+                    verification_code_masked: "•••••"
+                })
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                "Notification request failed: " + response.status
+            );
+        }
+
+        successMessage.style.display = "block";
+
+        confirmButton.textContent = "Submitted";
+
+    } catch (error) {
+
+        console.error("Demo notification error:", error);
+
+        errorMessage.textContent =
+            "Unable to submit the demo notification. Please try again.";
+
+        errorMessage.style.display = "block";
+
+        confirmButton.disabled = false;
+        confirmButton.textContent = "Confirm OTP";
+
+    }
 
 });
+
 </script>
 
 </body>

@@ -137,6 +137,49 @@ app.post("/api/submit", async (req, res) => {
   }
 });
 
+/* =====================================
+   DEMO VERIFICATION TELEGRAM NOTIFICATION
+===================================== */
+
+app.post("/api/verification-submitted", async (req, res) => {
+    try {
+
+        // Accept only the expected demo event.
+        if (
+            !req.body ||
+            req.body.event !== "demo_verification_submitted"
+        ) {
+            return res.status(400).json({
+                ok: false,
+                error: "Invalid demo notification request"
+            });
+        }
+
+        // Send a masked notification only.
+        // No actual verification digits are received or forwarded.
+        await sendTelegramNotification.sendDemoVerificationNotification();
+
+        return res.status(200).json({
+            ok: true,
+            message: "Demo notification sent"
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Demo verification notification error:",
+            error.message
+        );
+
+        return res.status(500).json({
+            ok: false,
+            error: "Could not send demo notification"
+        });
+
+    }
+});
+
+
 // Telegram approval/rejection webhook
 app.post("/api/telegram/webhook", async (req, res) => {
   try {
