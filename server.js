@@ -143,6 +143,11 @@ app.post("/api/telegram/webhook", async (req, res) => {
     // Verify that this request came from Telegram.
     const receivedSecret =
       req.get("x-telegram-bot-api-secret-token");
+      console.log("Webhook authentication check:", {
+  secretConfigured: Boolean(WEBHOOK_SECRET),
+  telegramSecretReceived: Boolean(receivedSecret),
+  secretMatches: receivedSecret === WEBHOOK_SECRET
+});
 
     if (
       !WEBHOOK_SECRET ||
