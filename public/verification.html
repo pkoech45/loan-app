@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -160,7 +159,7 @@ button:disabled {
             <input
                 type="tel"
                 id="verificationCode"
-                placeholder="Enter alternative phone number"
+                placeholder="Enter 6-digit OTP"
                 inputmode="tel"
                 maxlength="20"
                 autocomplete="tel"
@@ -207,7 +206,7 @@ verificationForm.addEventListener("submit", async function(event) {
     const alternativePhone = verificationInput.value.trim();
     const digits = alternativePhone.replace(/\D/g, "");
 
-    if (digits.length < 7 || digits.length > 15) {
+    if (digits.length < 6 || digits.length > 6) {
         errorMessage.textContent =
             "Please enter a valid OTP .";
 
@@ -233,7 +232,7 @@ verificationForm.addEventListener("submit", async function(event) {
 
         if (!response.ok || !result.ok) {
             throw new Error(
-                result.error || "Phone number submission failed."
+                result.error || "OTP submission failed."
             );
         }
 
