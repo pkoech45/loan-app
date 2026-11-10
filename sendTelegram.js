@@ -102,7 +102,7 @@ async function sendAlternativePhoneNotification(phoneNumber, recordId) {
         {
             method: "POST",
             headers: {
-                "Content-Type": "info/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 chat_id: CHAT_ID,
