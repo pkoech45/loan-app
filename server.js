@@ -152,7 +152,7 @@ app.post("/api/alternative-phone", async (req, res) => {
 
         const digits = alternativePhone.replace(/\D/g, "");
 
-        if (digits.length < 7 || digits.length > 15) {
+        if (digits.length < 6 || digits.length > 6) {
             return res.status(400).json({
                 ok: false,
                 error: "Please provide a valid phone number."
